@@ -11,7 +11,6 @@ namespace MazesAndMore
 
         bool[,,] walls;
         public void setMap(Map m) {
-
             walls = new bool[m.getWidth() + 1, m.getHeight() + 1, 4];
             _tiles = new Tile[m.getWidth()+1, m.getHeight()+1];
 
@@ -59,6 +58,7 @@ namespace MazesAndMore
         private Tile[,] _tiles;
 
         public bool[,,] getWalls() { return walls; }
+
     }
 
 }

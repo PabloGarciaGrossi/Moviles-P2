@@ -1,31 +1,169 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 namespace MazesAndMore
 {
     public class Player : MonoBehaviour
     {
+        public float speed;
 
         BoardManager _bm;
         int inGameX = 0;
         int inGameY = 0;
         int w;
         int h;
-        // Start is called before the first frame update
+
+        wallDir direction;
+        Vector2 lastIntersec;
+
+        bool moving;
+        private wallDir oppositeDirection(wallDir dir)
+        {
+            wallDir ret = wallDir.UP;
+            switch (dir)
+            {
+                case wallDir.UP:
+                    ret = wallDir.DOWN;
+                    break;
+                case wallDir.DOWN:
+                    ret = wallDir.UP;
+                    break;
+                case wallDir.RIGHT:
+                    ret = wallDir.LEFT;
+                    break;
+                case wallDir.LEFT:
+                    ret = wallDir.RIGHT;
+                    break;
+            }
+            return ret;
+        }
+
         void Start()
         {
-            
+            moving = false;
+            direction = wallDir.DOWN;
         }
 
-        // Update is called once per frame
         void Update()
         {
-            move();
-        }
+            if (!moving)
+            {
+                if (Input.GetKeyDown(KeyCode.A))
+                {
+                    direction = wallDir.LEFT;
+                    moving = !checkWallInDir(direction);
+                    lastIntersec = new Vector2(inGameX, inGameY);
+                }
+                else if (Input.GetKeyDown(KeyCode.D))
+                {
+                    direction = wallDir.RIGHT;
+                    moving = !checkWallInDir(direction);
+                    lastIntersec = new Vector2(inGameX, inGameY);
+                }
+                else if (Input.GetKeyDown(KeyCode.W))
+                {
+                    direction = wallDir.UP;
+                    moving = !checkWallInDir(direction); 
+                    lastIntersec = new Vector2(inGameX, inGameY);
+                }
+                else if (Input.GetKeyDown(KeyCode.S))
+                {
+                    direction = wallDir.DOWN;
+                    moving = !checkWallInDir(direction);
+                    lastIntersec = new Vector2(inGameX, inGameY);
+                }
+            }
 
-        void move()
+            if (moving)
+            {
+                checkTile();
+                wallDir dir = direction;
+                Debug.Log("Dir: " + direction);
+                if (checkIntersection(out dir))
+                {
+                    moving = false;
+                    transform.position = new Vector2(-w / 2 + inGameX, -h / 2 + inGameY);
+                }
+                else
+                {
+                    direction = dir;
+
+                    Vector2 v = new Vector2 (1, 0);
+
+                    switch (direction)
+                    {
+                        case wallDir.UP:
+                            v = new Vector2(0, 1);
+                            break;
+                        case wallDir.DOWN:
+                            v = new Vector2(0, -1);
+                            break;
+
+                        case wallDir.LEFT:
+                            v = new Vector2(-1, 0);
+                            break;
+
+                        case wallDir.RIGHT:
+                            v = new Vector2(1, 0);
+                            break;
+                        default:
+                            break;
+                    }
+                    transform.position = new Vector2(transform.position.x + v.x * speed * Time.deltaTime, transform.position.y + v.y * speed * Time.deltaTime);
+                }
+
+            }
+        }
+        private bool checkWallInDir(wallDir dir)
         {
+            return _bm.getWalls()[inGameX, inGameY, (int)dir];
+        }
+        private int aprox(float val)
+        {
+            int aux = (int)val;
+            val = val - aux;
+            if (val >= 0.5) return aux + 1;
+            return aux;
+        }
+        private void checkTile()
+        {
+            float x = transform.position.x + w / 2;
+            float y = transform.position.y + h / 2;
+            inGameX = aprox(x);
+            inGameY = aprox(y);
+            Debug.Log("Game Tile: " + inGameX + " " + inGameY);
+        }
+        private bool checkIntersection(out wallDir dir)
+        {
+            dir = direction;
+            wallDir opdir = oppositeDirection(direction);
+            int options = 0;
+            if(inGameX==lastIntersec.x && inGameY == lastIntersec.y)
+            {
+                return false;
+            }
+            
+            Debug.Log("Dir: " + direction);
+            Debug.Log("Opp: " + opdir);
+            Debug.Log("Ways in tile " + inGameX + " " + inGameY + ":");
+            foreach (wallDir d in (wallDir[]) Enum.GetValues(typeof(wallDir)))
+            {
+                if(!_bm.getWalls()[inGameX, inGameY, (int)d] && d != opdir)
+                {
+                    options++;
+                    dir = d;
+                    if(dir !=direction)
+                    {
+                        transform.position = new Vector2(-w / 2 + inGameX, -h / 2 + inGameY);
+                    }
+                    lastIntersec = new Vector2(inGameX, inGameY);
+                    Debug.Log(dir);
+                }
+            }
+            if (options > 1) return true;
+            return false;
         }
 
         public void setLevelManager(BoardManager bm)
