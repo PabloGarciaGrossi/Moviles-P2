@@ -147,9 +147,11 @@ namespace MazesAndMore
             
             Debug.Log("Dir: " + direction);
             Debug.Log("Opp: " + opdir);
-            Debug.Log("Ways in tile " + inGameX + " " + inGameY + ":");
+            Debug.Log("Walls in tile " + inGameX + " " + inGameY + ":");
             foreach (wallDir d in (wallDir[]) Enum.GetValues(typeof(wallDir)))
             {
+                if(_bm.getWalls()[inGameX, inGameY, (int)d])
+                    Debug.Log(d);
                 if(!_bm.getWalls()[inGameX, inGameY, (int)d] && d != opdir)
                 {
                     options++;
@@ -159,11 +161,11 @@ namespace MazesAndMore
                         transform.position = new Vector2(-w / 2 + inGameX, -h / 2 + inGameY);
                     }
                     lastIntersec = new Vector2(inGameX, inGameY);
-                    Debug.Log(dir);
+                    //Debug.Log(dir);
                 }
             }
-            if (options > 1) return true;
-            return false;
+            if (options == 1) return false;
+            return true;
         }
 
         public void setLevelManager(BoardManager bm)
