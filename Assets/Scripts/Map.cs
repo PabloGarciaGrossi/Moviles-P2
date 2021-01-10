@@ -21,6 +21,7 @@ public class Map
         setWidth(mapaAux.c);
         setWalls(mapaAux.w);
         setStart(mapaAux.s);
+        setEnd(mapaAux.f);
         return this;
     }
     public int getWidth()
@@ -62,6 +63,15 @@ public class Map
         return _start;
     }
 
+    public void setEnd(Vector2Int e)
+    {
+        _end = e;
+    }
+    public Vector2Int getEnd()
+    {
+        return _end;
+    }
+
     [System.Serializable]
     public class Walls
     {
@@ -72,6 +82,7 @@ public class Map
     int _width;
     int _height;
     public Vector2Int _start;
+    public Vector2Int _end;
     Walls[] _walls;
     static Map instance;
 

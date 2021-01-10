@@ -8,7 +8,7 @@ namespace MazesAndMore {
         // Start is called before the first frame update
         public BoardManager bm;
         public Player player;
-
+        bool solved = false;
         Map m;
         void Start()
         {
@@ -20,9 +20,14 @@ namespace MazesAndMore {
             m = new Map();
             m.FromJson(lv);
             bm.setMap(m);
-            player = GameObject.Instantiate(player);
+            //player = GameObject.Instantiate(player);
             player.setStartPos(m.getStart().x, m.getStart().y, m.getWidth(), m.getHeight());
             player.setLevelManager(bm);
+        }
+
+        public void resetLevel()
+        {
+            bm.resetBoard();
         }
 
         public bool isWall(int x, int y, wallDir w)

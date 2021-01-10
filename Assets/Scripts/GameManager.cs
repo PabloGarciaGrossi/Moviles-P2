@@ -37,5 +37,15 @@ namespace MazesAndMore
                 lm.LoadLevel(levelPackages[levelType].levels[leveltoPlay].text);
             }
         }
+
+        private void Update()
+        {
+            if(lm.player.transform.position == lm.bm.getEnd().transform.position)
+            {
+                leveltoPlay++;
+                lm.resetLevel();
+                lm.LoadLevel(levelPackages[levelType].levels[leveltoPlay].text);
+            }
+        }
     }
 }

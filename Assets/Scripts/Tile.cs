@@ -12,6 +12,9 @@ namespace MazesAndMore
         [Tooltip("Sprite para el tile de salida")]
         public SpriteRenderer startTile;
 
+        [Tooltip("Sprite para el tile de fin")]
+        public SpriteRenderer endTile;
+
         [Tooltip("Sprite para el tile de pared horizontal")]
         public SpriteRenderer horizontalWallTile;
 
@@ -43,12 +46,22 @@ namespace MazesAndMore
 
         public void enableStart()
         {
-
+            startTile.enabled = true;
         }
 
         public void disableStart()
         {
+            startTile.enabled = false;
+        }
 
+        public void enableEnd()
+        {
+            endTile.enabled = true;
+        }
+
+        public void disableEnd()
+        {
+            endTile.enabled = false;
         }
 
         public void enableVerticalWall()
@@ -58,7 +71,7 @@ namespace MazesAndMore
 
         public void disableVerticalWall()
         {
-
+            verticalWallTile.enabled = false;
         }
 
         public void enableHorizontalWall()
@@ -68,7 +81,7 @@ namespace MazesAndMore
 
         public void disableHorizontalWall()
         {
-
+            horizontalWallTile.enabled = false;
         }
     }
 }

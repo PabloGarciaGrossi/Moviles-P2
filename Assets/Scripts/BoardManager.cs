@@ -11,11 +11,29 @@ namespace MazesAndMore
 
         bool[,,] walls;
         public void setMap(Map m) {
+            map = m;
             walls = new bool[m.getWidth() + 1, m.getHeight() + 1, 4];
             _tiles = new Tile[m.getWidth()+1, m.getHeight()+1];
 
+            //Ponemos el tile de inicio activau
+            startX = m.getStart().x;
+            startY = m.getStart().y;
+            if(_tiles[startX, startY] == null)
+                _tiles[startX, startY] = GameObject.Instantiate(tile);
+            _tiles[startX, startY].gameObject.transform.position = new Vector2(startX - m.getWidth() / 2, startY - m.getHeight() / 2);
+            _tiles[startX, startY].enableStart();
+
+            //Ponemos el tile de fin activau
+            endX = m.getEnd().x;
+            endY = m.getEnd().y;
+            if (_tiles[endX, endY] == null)
+                _tiles[endX, endY] = GameObject.Instantiate(tile);
+            _tiles[endX, endY].gameObject.transform.position = new Vector2(endX - m.getWidth() / 2, endY - m.getHeight() / 2);
+            _tiles[endX, endY].enableEnd();
+            _endTile = _tiles[endX, endY];
+
             //Instanciación de los tiles según la info del map
-            for(int i = 0; i < m.getWalls().Length; i++)
+            for (int i = 0; i < m.getWalls().Length; i++)
             {
                 int posxO = m.getWalls()[i].o.x;
                 int posyO = m.getWalls()[i].o.y;
@@ -30,7 +48,8 @@ namespace MazesAndMore
                 int x = Mathf.Min(posxO, posxD);
                 int y = Mathf.Min(posyO, posyD);
 
-                _tiles[x, y] = GameObject.Instantiate(tile);
+                if (_tiles[x, y] == null)
+                    _tiles[x, y] = GameObject.Instantiate(tile);
                 _tiles[x, y].gameObject.transform.position = new Vector2(x - m.getWidth()/2, y - m.getHeight()/2);
                 if (!dirHorizontal)
                 {
@@ -55,8 +74,50 @@ namespace MazesAndMore
             _lm = levelmanager;
         }
 
-        private Tile[,] _tiles;
+        public void resetBoard()
+        {
+            _tiles[startX, startY].disableStart();
+            _tiles[endX, endY].disableEnd();
 
+            for (int i = 0; i < map.getWalls().Length; i++)
+            {
+                int posxO = map.getWalls()[i].o.x;
+                int posyO = map.getWalls()[i].o.y;
+
+                int posxD = map.getWalls()[i].d.x;
+                int posyD = map.getWalls()[i].d.y;
+
+                bool dirHorizontal = false;
+                if (Mathf.Abs(posxO - posxD) != 0)
+                    dirHorizontal = true;
+
+                int x = Mathf.Min(posxO, posxD);
+                int y = Mathf.Min(posyO, posyD);
+
+                if (!dirHorizontal)
+                {
+                    _tiles[x, y].disableVerticalWall();
+                    walls[x, y, (int)wallDir.LEFT] = false;
+
+                    if (x - 1 >= 0)
+                        walls[x - 1, y, (int)wallDir.RIGHT] = false;
+                }
+                else
+                {
+                    _tiles[x, y].disableHorizontalWall();
+                    walls[x, y, (int)wallDir.DOWN] = false;
+                    if (y - 1 >= 0)
+                        walls[x, y - 1, (int)wallDir.UP] = false;
+                }
+            }
+        }
+        public Tile getEnd() { return _endTile; }
+
+        private Tile[,] _tiles;
+        private Tile _endTile;
+        int startX, startY;
+        int endX, endY;
+        Map map;
         public bool[,,] getWalls() { return walls; }
 
     }
