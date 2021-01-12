@@ -84,7 +84,7 @@ namespace MazesAndMore
                 if (checkIntersection(out dir))
                 {
                     moving = false;
-                    transform.position = new Vector2(-w / 2 + inGameX, -h / 2 + inGameY);
+                    transform.localPosition = new Vector2(-w / 2 + inGameX, -h / 2 + inGameY);
                 }
                 else
                 {
@@ -111,7 +111,7 @@ namespace MazesAndMore
                         default:
                             break;
                     }
-                    transform.position = new Vector2(transform.position.x + v.x * speed * Time.deltaTime, transform.position.y + v.y * speed * Time.deltaTime);
+                    transform.localPosition = new Vector2(transform.localPosition.x + v.x * speed * Time.deltaTime, transform.localPosition.y + v.y * speed * Time.deltaTime);
                 }
 
             }
@@ -129,8 +129,8 @@ namespace MazesAndMore
         }
         private void checkTile()
         {
-            float x = transform.position.x + w / 2;
-            float y = transform.position.y + h / 2;
+            float x = transform.localPosition.x + w / 2;
+            float y = transform.localPosition.y + h / 2;
             inGameX = aprox(x);
             inGameY = aprox(y);
             Debug.Log("Game Tile: " + inGameX + " " + inGameY);
@@ -158,7 +158,7 @@ namespace MazesAndMore
                     dir = d;
                     if(dir !=direction)
                     {
-                        transform.position = new Vector2(-w / 2 + inGameX, -h / 2 + inGameY);
+                        transform.localPosition = new Vector2(-w / 2 + inGameX, -h / 2 + inGameY);
                     }
                     lastIntersec = new Vector2(inGameX, inGameY);
                     //Debug.Log(dir);
