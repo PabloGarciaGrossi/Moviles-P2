@@ -19,10 +19,15 @@ namespace MazesAndMore {
         {
             m = new Map();
             m.FromJson(lv);
-            bm.setMap(m);
-            //player = GameObject.Instantiate(player);
+
+            player.transform.parent = bm.transform;
             player.setStartPos(m.getStart().x, m.getStart().y, m.getWidth(), m.getHeight());
+
+            bm.setMap(m);
             player.setLevelManager(bm);
+            //player = GameObject.Instantiate(player);
+
+
         }
 
         public void resetLevel()

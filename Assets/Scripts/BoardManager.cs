@@ -8,7 +8,7 @@ namespace MazesAndMore
     {
         public Tile tile;
         private LevelManager _lm;
-
+        public Camera cam;
         bool[,,] walls;
         public void setMap(Map m) {
             map = m;
@@ -18,8 +18,11 @@ namespace MazesAndMore
             //Ponemos el tile de inicio activau
             startX = m.getStart().x;
             startY = m.getStart().y;
-            if(_tiles[startX, startY] == null)
+            if (_tiles[startX, startY] == null)
+            {
                 _tiles[startX, startY] = GameObject.Instantiate(tile);
+                _tiles[startX, startY].transform.parent = this.transform;
+            }
             _tiles[startX, startY].gameObject.transform.position = new Vector2(startX - m.getWidth() / 2, startY - m.getHeight() / 2);
             _tiles[startX, startY].enableStart();
 
@@ -27,7 +30,10 @@ namespace MazesAndMore
             endX = m.getEnd().x;
             endY = m.getEnd().y;
             if (_tiles[endX, endY] == null)
+            {
                 _tiles[endX, endY] = GameObject.Instantiate(tile);
+                _tiles[endX, endY].transform.parent = this.transform;
+            }
             _tiles[endX, endY].gameObject.transform.position = new Vector2(endX - m.getWidth() / 2, endY - m.getHeight() / 2);
             _tiles[endX, endY].enableEnd();
             _endTile = _tiles[endX, endY];
@@ -49,7 +55,10 @@ namespace MazesAndMore
                 int y = Mathf.Min(posyO, posyD);
 
                 if (_tiles[x, y] == null)
+                {
                     _tiles[x, y] = GameObject.Instantiate(tile);
+                    _tiles[x, y].transform.parent = this.transform;
+                }
                 _tiles[x, y].gameObject.transform.position = new Vector2(x - m.getWidth()/2, y - m.getHeight()/2);
                 if (!dirHorizontal)
                 {
@@ -67,6 +76,9 @@ namespace MazesAndMore
                         walls[x, y-1, (int)wallDir.UP] = true;
                 }
             }
+            float sc = (float)cam.pixelWidth / (float)cam.pixelHeight;
+            totalScale = (cam.orthographicSize * 2 * sc) / m.getWidth();
+            this.transform.localScale = new Vector3(totalScale, totalScale,1);
         }
 
         public void init(LevelManager levelmanager)
@@ -112,11 +124,12 @@ namespace MazesAndMore
             }
         }
         public Tile getEnd() { return _endTile; }
-
+        public float getScale() { return totalScale; }
         private Tile[,] _tiles;
         private Tile _endTile;
         int startX, startY;
         int endX, endY;
+        float totalScale = 1f;
         Map map;
         public bool[,,] getWalls() { return walls; }
 
