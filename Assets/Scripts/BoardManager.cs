@@ -123,8 +123,28 @@ namespace MazesAndMore
                 }
             }
         }
+
+        public void updatePath(int x, int y, wallDir dir)
+        {
+            switch (dir)
+            {
+                case wallDir.UP:
+                    break;
+                case wallDir.DOWN:
+                    break;
+                case wallDir.LEFT:
+                    break;
+                case wallDir.RIGHT:
+                    break;
+            }
+        }
         public Tile getEnd() { return _endTile; }
+
         public float getScale() { return totalScale; }
+
+        public Tile[,] getTiles() { return _tiles; }
+
+
         private Tile[,] _tiles;
         private Tile _endTile;
         int startX, startY;

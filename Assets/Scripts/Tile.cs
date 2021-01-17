@@ -21,13 +21,19 @@ namespace MazesAndMore
         [Tooltip("Sprite para el tile de pared vertical")]
         public SpriteRenderer verticalWallTile;
 
-        [Tooltip("Sprite para el tile de trazo horizontal")]
-        public SpriteRenderer horizontalPath;
+        [Tooltip("Sprite para el tile de trazo izquierdo")]
+        public SpriteRenderer leftPath;
 
-        [Tooltip("Sprite para el tile de trazo vertical")]
-        public SpriteRenderer verticalPath;
+        [Tooltip("Sprite para el tile de trazo derecho")]
+        public SpriteRenderer rightPath;
 
-        
+        [Tooltip("Sprite para el tile de trazo superior")]
+        public SpriteRenderer upPath;
+
+        [Tooltip("Sprite para el tile de trazo inferior")]
+        public SpriteRenderer downPath;
+
+
         // Start is called before the first frame update
         void Start()
         {
@@ -82,6 +88,65 @@ namespace MazesAndMore
         public void disableHorizontalWall()
         {
             horizontalWallTile.enabled = false;
+        }
+
+        public void enableUpPath()
+        {
+            upPath.enabled = true;
+        }
+
+        public void disableUpPath()
+        {
+            upPath.enabled = false;
+        }
+
+        public bool isUpPathEnabled()
+        {
+            return upPath.enabled;
+        }
+
+        public void enableDownPath()
+        {
+            downPath.enabled = true;
+        }
+
+        public void disableDownPath()
+        {
+            downPath.enabled = false;
+        }
+
+        public bool isDownPathEnabled()
+        {
+            return downPath.enabled;
+        }
+        public void enableLeftPath()
+        {
+            leftPath.enabled = true;
+        }
+
+        public void disableLeftPath()
+        {
+            leftPath.enabled = false;
+        }
+
+        public bool isLeftPathEnabled()
+        {
+            return leftPath.enabled;
+        }
+
+        public void enableRightPath()
+        {
+            rightPath.enabled = true;
+        }
+
+        public void disableRightPath()
+        {
+            rightPath.enabled = false;
+        }
+
+        public bool isRightPathEnabled()
+        {
+            return rightPath.enabled;
         }
     }
 }

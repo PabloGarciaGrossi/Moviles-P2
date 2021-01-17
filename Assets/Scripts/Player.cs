@@ -181,5 +181,10 @@ namespace MazesAndMore
             h = height;
             transform.position = new Vector2(-w/2 + x, -h/2 + y);
         }
+
+        public void setColor(Color col)
+        {
+            GetComponent<SpriteRenderer>().color = col;
+        }
     }
 }

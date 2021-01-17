@@ -236,6 +236,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tile: {fileID: 2507269280249678479, guid: de8439f9ef94cf94589ad9aeac0c2f85, type: 3}
+  cam: {fileID: 519420031}
 --- !u!4 &773914843
 Transform:
   m_ObjectHideFlags: 0
@@ -245,7 +246,7 @@ Transform:
   m_GameObject: {fileID: 773914841}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -281,7 +282,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lm: {fileID: 1744649308}
   levelType: 0
-  leveltoPlay: 0
+  leveltoPlay: 1
   levelPackages:
   - {fileID: 11400000, guid: 3a9394843b44df84d9e992714a39bcd3, type: 2}
 --- !u!4 &936473574
@@ -319,15 +320,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4378262992833570793, guid: 20d043bacec118849910f746130684a3, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4378262992833570793, guid: 20d043bacec118849910f746130684a3, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4378262992833570793, guid: 20d043bacec118849910f746130684a3, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 4378262992833570793, guid: 20d043bacec118849910f746130684a3, type: 3}
       propertyPath: m_LocalRotation.w

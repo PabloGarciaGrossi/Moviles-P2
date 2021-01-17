@@ -15,13 +15,15 @@ namespace MazesAndMore {
             bm.init(this);
         }
 
-        public void LoadLevel(string lv)
+        public void LoadLevel(string lv, Color col)
         {
             m = new Map();
             m.FromJson(lv);
 
-            player.transform.parent = bm.transform;
+            bm.transform.localScale = new Vector3(1, 1, 1);
+            player.setColor(col);
             player.setStartPos(m.getStart().x, m.getStart().y, m.getWidth(), m.getHeight());
+            player.transform.parent = bm.transform;
 
             bm.setMap(m);
             player.setLevelManager(bm);
