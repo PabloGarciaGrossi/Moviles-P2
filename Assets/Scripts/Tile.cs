@@ -33,7 +33,6 @@ namespace MazesAndMore
         [Tooltip("Sprite para el tile de trazo inferior")]
         public SpriteRenderer downPath;
 
-
         // Start is called before the first frame update
         void Start()
         {
@@ -90,6 +89,10 @@ namespace MazesAndMore
             horizontalWallTile.enabled = false;
         }
 
+        public void toggleUpPath()
+        {
+            upPath.enabled = !upPath.enabled;
+        }
         public void enableUpPath()
         {
             upPath.enabled = true;
@@ -100,9 +103,9 @@ namespace MazesAndMore
             upPath.enabled = false;
         }
 
-        public bool isUpPathEnabled()
+        public void toggleDownPath()
         {
-            return upPath.enabled;
+            downPath.enabled = !downPath.enabled;
         }
 
         public void enableDownPath()
@@ -115,10 +118,6 @@ namespace MazesAndMore
             downPath.enabled = false;
         }
 
-        public bool isDownPathEnabled()
-        {
-            return downPath.enabled;
-        }
         public void enableLeftPath()
         {
             leftPath.enabled = true;
@@ -129,9 +128,9 @@ namespace MazesAndMore
             leftPath.enabled = false;
         }
 
-        public bool isLeftPathEnabled()
+        public void toggleLeftPath()
         {
-            return leftPath.enabled;
+            leftPath.enabled = !leftPath.enabled;
         }
 
         public void enableRightPath()
@@ -144,9 +143,25 @@ namespace MazesAndMore
             rightPath.enabled = false;
         }
 
-        public bool isRightPathEnabled()
+        public void toggleRightPath()
         {
-            return rightPath.enabled;
+            rightPath.enabled = !rightPath.enabled;
+        }
+
+        public void setColor(Color col)
+        {
+             leftPath.color = col;
+             rightPath.color = col;
+             upPath.color = col;
+             downPath.color = col;
+        }
+
+        public void disablePaths()
+        {
+            disableDownPath();
+            disableLeftPath();
+            disableRightPath();
+            disableUpPath();
         }
     }
 }

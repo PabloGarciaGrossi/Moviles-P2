@@ -26,6 +26,7 @@ namespace MazesAndMore {
             player.transform.parent = bm.transform;
 
             bm.setMap(m);
+            bm.setPathColor(col);
             player.setLevelManager(bm);
             //player = GameObject.Instantiate(player);
 

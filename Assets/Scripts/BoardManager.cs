@@ -15,26 +15,24 @@ namespace MazesAndMore
             walls = new bool[m.getWidth() + 1, m.getHeight() + 1, 4];
             _tiles = new Tile[m.getWidth()+1, m.getHeight()+1];
 
+            for (int i = 0; i < m.getWidth() + 1; i++)
+            {
+                for (int j = 0; j < m.getHeight() + 1; j++)
+                {
+                    _tiles[i, j] = GameObject.Instantiate(tile);
+                    _tiles[i, j].transform.parent = this.transform;
+                    _tiles[i, j].gameObject.transform.position = new Vector2(i - m.getWidth() / 2, j - m.getHeight() / 2);
+                }
+            }
+
             //Ponemos el tile de inicio activau
             startX = m.getStart().x;
             startY = m.getStart().y;
-            if (_tiles[startX, startY] == null)
-            {
-                _tiles[startX, startY] = GameObject.Instantiate(tile);
-                _tiles[startX, startY].transform.parent = this.transform;
-            }
-            _tiles[startX, startY].gameObject.transform.position = new Vector2(startX - m.getWidth() / 2, startY - m.getHeight() / 2);
             _tiles[startX, startY].enableStart();
 
             //Ponemos el tile de fin activau
             endX = m.getEnd().x;
             endY = m.getEnd().y;
-            if (_tiles[endX, endY] == null)
-            {
-                _tiles[endX, endY] = GameObject.Instantiate(tile);
-                _tiles[endX, endY].transform.parent = this.transform;
-            }
-            _tiles[endX, endY].gameObject.transform.position = new Vector2(endX - m.getWidth() / 2, endY - m.getHeight() / 2);
             _tiles[endX, endY].enableEnd();
             _endTile = _tiles[endX, endY];
 
@@ -54,12 +52,6 @@ namespace MazesAndMore
                 int x = Mathf.Min(posxO, posxD);
                 int y = Mathf.Min(posyO, posyD);
 
-                if (_tiles[x, y] == null)
-                {
-                    _tiles[x, y] = GameObject.Instantiate(tile);
-                    _tiles[x, y].transform.parent = this.transform;
-                }
-                _tiles[x, y].gameObject.transform.position = new Vector2(x - m.getWidth()/2, y - m.getHeight()/2);
                 if (!dirHorizontal)
                 {
                     _tiles[x, y].enableVerticalWall();
@@ -122,6 +114,13 @@ namespace MazesAndMore
                         walls[x, y - 1, (int)wallDir.UP] = false;
                 }
             }
+            for (int i = 0; i < map.getWidth() + 1; i++)
+            {
+                for (int j = 0; j < map.getHeight() + 1; j++)
+                {
+                    _tiles[i, j].disablePaths();
+                }
+            }
         }
 
         public void updatePath(int x, int y, wallDir dir)
@@ -136,6 +135,16 @@ namespace MazesAndMore
                     break;
                 case wallDir.RIGHT:
                     break;
+            }
+        }
+
+        public void setPathColor(Color col) {
+            for (int i = 0; i < map.getWidth() + 1; i++)
+            {
+                for (int j = 0; j < map.getHeight() + 1; j++)
+                {
+                    _tiles[i, j].setColor(col);
+                }
             }
         }
         public Tile getEnd() { return _endTile; }

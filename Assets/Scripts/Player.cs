@@ -12,8 +12,12 @@ namespace MazesAndMore
         BoardManager _bm;
         int inGameX = 0;
         int inGameY = 0;
+        float timeMoving = 0.0f;
+        float time = 0.25f;
         int w;
         int h;
+        bool pathUpdate = false;
+        List<Tile> path;
 
         wallDir direction;
         Vector2 lastIntersec;
@@ -53,72 +57,80 @@ namespace MazesAndMore
                 if (Input.GetKeyDown(KeyCode.A))
                 {
                     direction = wallDir.LEFT;
-                    moving = !checkWallInDir(direction);
-                    lastIntersec = new Vector2(inGameX, inGameY);
+                    moving = true;
+                    path = findPath(direction);
                 }
                 else if (Input.GetKeyDown(KeyCode.D))
                 {
                     direction = wallDir.RIGHT;
-                    moving = !checkWallInDir(direction);
-                    lastIntersec = new Vector2(inGameX, inGameY);
+                    moving = true;
+                    path = findPath(direction);
                 }
                 else if (Input.GetKeyDown(KeyCode.W))
                 {
                     direction = wallDir.UP;
-                    moving = !checkWallInDir(direction); 
-                    lastIntersec = new Vector2(inGameX, inGameY);
+                    moving = true;
+                    path = findPath(direction);
                 }
                 else if (Input.GetKeyDown(KeyCode.S))
                 {
                     direction = wallDir.DOWN;
-                    moving = !checkWallInDir(direction);
-                    lastIntersec = new Vector2(inGameX, inGameY);
+                    moving = true;
+                    path = findPath(direction);
                 }
+
             }
 
             if (moving)
             {
-                checkTile();
-                wallDir dir = direction;
-                Debug.Log("Dir: " + direction);
-                if (checkIntersection(out dir))
+                timeMoving += Time.deltaTime;
+                if (timeMoving >= time)
                 {
-                    moving = false;
-                    transform.localPosition = new Vector2(-w / 2 + inGameX, -h / 2 + inGameY);
+                    transform.localPosition = path[0].transform.localPosition;
+                    wallDir d = getDirection(_bm.getTiles()[inGameX, inGameY].transform.localPosition, path[0].transform.localPosition);
+                    checkTile();
+                    updatePaths(d, false);
+                    path.RemoveAt(0);
+                    timeMoving = 0;
+                    pathUpdate = false;
+                    if (path.Count == 0)
+                    {
+                        moving = false;
+                    }
                 }
                 else
                 {
-                    direction = dir;
-
-                    Vector2 v = new Vector2 (1, 0);
-
-                    switch (direction)
+                    transform.localPosition = Vector3.Lerp(_bm.getTiles()[inGameX, inGameY].transform.localPosition, path[0].transform.localPosition, timeMoving / time);
+                    if(timeMoving >= time / 2 && !pathUpdate)
                     {
-                        case wallDir.UP:
-                            v = new Vector2(0, 1);
-                            break;
-                        case wallDir.DOWN:
-                            v = new Vector2(0, -1);
-                            break;
-
-                        case wallDir.LEFT:
-                            v = new Vector2(-1, 0);
-                            break;
-
-                        case wallDir.RIGHT:
-                            v = new Vector2(1, 0);
-                            break;
-                        default:
-                            break;
+                        wallDir d = getDirection(_bm.getTiles()[inGameX, inGameY].transform.localPosition, path[0].transform.localPosition);
+                        updatePaths(d, true);
+                        pathUpdate = true;
                     }
-                    transform.localPosition = new Vector2(transform.localPosition.x + v.x * speed * Time.deltaTime, transform.localPosition.y + v.y * speed * Time.deltaTime);
                 }
-
             }
         }
-        private bool checkWallInDir(wallDir dir)
+
+        public wallDir getDirection(Vector2 first, Vector2 second)
         {
-            return _bm.getWalls()[inGameX, inGameY, (int)dir];
+            wallDir d = wallDir.UP;
+            if(first.x < second.x)
+            {
+                d = wallDir.RIGHT;
+            }
+            else if(first.x > second.x)
+            {
+                d = wallDir.LEFT;
+            }
+            else if (first.y < second.y)
+            {
+                d = wallDir.UP;
+            }
+            else if (first.y > second.y)
+            {
+                d = wallDir.DOWN;
+            }
+            return d;
         }
         private int aprox(float val)
         {
@@ -127,6 +139,7 @@ namespace MazesAndMore
             if (val >= 0.5) return aux + 1;
             return aux;
         }
+
         private void checkTile()
         {
             float x = transform.localPosition.x + w / 2;
@@ -135,37 +148,76 @@ namespace MazesAndMore
             inGameY = aprox(y);
             Debug.Log("Game Tile: " + inGameX + " " + inGameY);
         }
-        private bool checkIntersection(out wallDir dir)
+
+        private List<Tile> findPath(wallDir dir)
         {
-            dir = direction;
-            wallDir opdir = oppositeDirection(direction);
             int options = 0;
-            if(inGameX==lastIntersec.x && inGameY == lastIntersec.y)
+            bool foundIntersection = false;
+            int x = inGameX;
+            int y = inGameY;
+            List<Tile> path = new List<Tile>();
+
+            if(_bm.getWalls()[x, y, (int)dir])
             {
-                return false;
+                foundIntersection = true;
             }
-            
-            Debug.Log("Dir: " + direction);
-            Debug.Log("Opp: " + opdir);
-            Debug.Log("Walls in tile " + inGameX + " " + inGameY + ":");
-            foreach (wallDir d in (wallDir[]) Enum.GetValues(typeof(wallDir)))
+            else
             {
-                if(_bm.getWalls()[inGameX, inGameY, (int)d])
-                    Debug.Log(d);
-                if(!_bm.getWalls()[inGameX, inGameY, (int)d] && d != opdir)
+                switch (dir)
                 {
-                    options++;
-                    dir = d;
-                    if(dir !=direction)
-                    {
-                        transform.localPosition = new Vector2(-w / 2 + inGameX, -h / 2 + inGameY);
-                    }
-                    lastIntersec = new Vector2(inGameX, inGameY);
-                    //Debug.Log(dir);
+                    case wallDir.UP:
+                        y += 1;
+                        break;
+                    case wallDir.DOWN:
+                        y -= 1;
+                        break;
+                    case wallDir.LEFT:
+                        x -= 1;
+                        break;
+                    case wallDir.RIGHT:
+                        x += 1;
+                        break;
                 }
             }
-            if (options == 1) return false;
-            return true;
+            path.Add(_bm.getTiles()[x,y]);
+
+            while (!foundIntersection)
+            {
+                wallDir aux = dir;
+                foreach (wallDir d in (wallDir[])Enum.GetValues(typeof(wallDir)))
+                {
+                    if (!_bm.getWalls()[x, y, (int)d] && d != oppositeDirection(dir))
+                    {
+                        options++;
+                        aux = d;
+                    }
+                }
+                if (options > 1 || (aux == dir && options == 0))
+                    foundIntersection = true;
+                else
+                {
+                    dir = aux;
+                    switch (dir)
+                    {
+                        case wallDir.UP:
+                            y += 1;
+                            break;
+                        case wallDir.DOWN:
+                            y -= 1;
+                            break;
+                        case wallDir.LEFT:
+                            x -= 1;
+                            break;
+                        case wallDir.RIGHT:
+                            x += 1;
+                            break;
+                    }
+                    options = 0;
+                    path.Add(_bm.getTiles()[x, y]);
+                }
+            }
+            return path;
+            
         }
 
         public void setLevelManager(BoardManager bm)
@@ -179,12 +231,37 @@ namespace MazesAndMore
             inGameY = y;
             w = width;
             h = height;
-            transform.position = new Vector2(-w/2 + x, -h/2 + y);
+            transform.position = new Vector2(-w / 2 + x, -h / 2 + y);
         }
 
         public void setColor(Color col)
         {
             GetComponent<SpriteRenderer>().color = col;
+        }
+
+        public void updatePaths(wallDir dir, bool inverted = false)
+        {
+            if (inverted)
+                dir = oppositeDirection(dir);
+            switch (dir)
+            {
+                case wallDir.UP:
+                    _bm.getTiles()[inGameX, inGameY].toggleDownPath();
+                    break;
+                case wallDir.DOWN:
+                    _bm.getTiles()[inGameX, inGameY].toggleUpPath();
+                    break;
+
+                case wallDir.LEFT:
+                    _bm.getTiles()[inGameX, inGameY].toggleRightPath();
+                    break;
+
+                case wallDir.RIGHT:
+                    _bm.getTiles()[inGameX, inGameY].toggleLeftPath();
+                    break;
+                default:
+                    break;
+            }
         }
     }
 }
