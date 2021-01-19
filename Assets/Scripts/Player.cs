@@ -49,7 +49,7 @@ namespace MazesAndMore
                     {
                         swipeEnd = touch.position;
                         Vector2 swipeDir = swipeEnd - swipeBeg;
-                        if(swipeDir.magnitude >= swipeDist)
+                        if (swipeDir.magnitude >= swipeDist)
                         {
                             if (Mathf.Abs(swipeDir.x) > Mathf.Abs(swipeDir.y))
                             {
@@ -132,7 +132,8 @@ namespace MazesAndMore
                 else if (Input.GetKeyDown(KeyCode.M))
                 {
                     transform.localPosition = _bm.getEnd().transform.localPosition;
-                else if(TouchMovement(out direction))
+                }
+                else if (TouchMovement(out direction))
                 {
                     moving = true;
                     path = findPath(direction);
@@ -160,7 +161,7 @@ namespace MazesAndMore
                 else
                 {
                     transform.localPosition = Vector3.Lerp(_bm.getTiles()[inGameX, inGameY].transform.localPosition, path[0].transform.localPosition, timeMoving / time);
-                    if(timeMoving >= time / 2 && !pathUpdate)
+                    if (timeMoving >= time / 2 && !pathUpdate)
                     {
                         wallDir d = directionController.getDirection(_bm.getTiles()[inGameX, inGameY].transform.localPosition, path[0].transform.localPosition);
                         updatePaths(d, true);
@@ -194,7 +195,7 @@ namespace MazesAndMore
             int y = inGameY;
             List<Tile> path = new List<Tile>();
 
-            if(_bm.getWalls()[x, y, (int)dir])
+            if (_bm.getWalls()[x, y, (int)dir])
             {
                 foundIntersection = true;
             }
@@ -216,7 +217,7 @@ namespace MazesAndMore
                         break;
                 }
             }
-            path.Add(_bm.getTiles()[x,y]);
+            path.Add(_bm.getTiles()[x, y]);
 
             while (!foundIntersection)
             {
@@ -254,7 +255,7 @@ namespace MazesAndMore
                 }
             }
             return path;
-            
+
         }
 
         public void setLevelManager(BoardManager bm)
@@ -283,7 +284,7 @@ namespace MazesAndMore
             switch (dir)
             {
                 case wallDir.UP:
-                        _bm.getTiles()[inGameX, inGameY].toggleDownPath();
+                    _bm.getTiles()[inGameX, inGameY].toggleDownPath();
                     break;
                 case wallDir.DOWN:
                     _bm.getTiles()[inGameX, inGameY].toggleUpPath();
