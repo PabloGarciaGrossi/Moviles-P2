@@ -34,7 +34,7 @@ namespace MazesAndMore
             if(lm)
             {
                 //lanzar nivel
-                lm.LoadLevel(levelPackages[levelType].levels[leveltoPlay].text, levelPackages[levelType].color);
+                lm.LoadLevel(levelPackages[levelType].levels[leveltoPlay].text, levelPackages[levelType].pathColor, levelPackages[levelType].hintColor);
             }
         }
 
@@ -44,7 +44,7 @@ namespace MazesAndMore
             {
                 leveltoPlay++;
                 lm.resetLevel();
-                lm.LoadLevel(levelPackages[levelType].levels[leveltoPlay].text, levelPackages[levelType].color);
+                lm.LoadLevel(levelPackages[levelType].levels[leveltoPlay].text, levelPackages[levelType].pathColor, levelPackages[levelType].hintColor);
             }
         }
     }

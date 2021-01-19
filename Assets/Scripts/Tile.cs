@@ -33,6 +33,18 @@ namespace MazesAndMore
         [Tooltip("Sprite para el tile de trazo inferior")]
         public SpriteRenderer downPath;
 
+        [Tooltip("Sprite para el tile de pista inferior")]
+        public SpriteRenderer downHint;
+
+        [Tooltip("Sprite para el tile de pista superior")]
+        public SpriteRenderer upHint;
+
+        [Tooltip("Sprite para el tile de pista derecha")]
+        public SpriteRenderer rightHint;
+
+        [Tooltip("Sprite para el tile de tpista izquierda")]
+        public SpriteRenderer leftHint;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -154,6 +166,42 @@ namespace MazesAndMore
              rightPath.color = col;
              upPath.color = col;
              downPath.color = col;
+        }
+
+        public void setPathColor(Color col)
+        {
+            leftHint.color = col;
+            rightHint.color = col;
+            upHint.color = col;
+            downHint.color = col;
+        }
+
+        public void disableHint()
+        {
+            leftHint.enabled = false;
+            rightHint.enabled = false;
+            upHint.enabled = false;
+            downHint.enabled = false;
+        }
+
+        public void enableLeftHint()
+        {
+            leftHint.enabled = true;
+        }
+
+        public void enableRightHint()
+        {
+            rightHint.enabled = true;
+        }
+
+        public void enableUpHint()
+        {
+            upHint.enabled = true;
+        }
+
+        public void enableDownHint()
+        {
+            downHint.enabled = true;
         }
 
         public void disablePaths()

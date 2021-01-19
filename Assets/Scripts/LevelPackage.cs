@@ -7,5 +7,10 @@ public class LevelPackage : ScriptableObject
 {
     public TextAsset[] levels;
 
-    public Color color;
+    public Color pathColor;
+
+    public Color hintColor;
+
+    public Color iceColor;
+
 }

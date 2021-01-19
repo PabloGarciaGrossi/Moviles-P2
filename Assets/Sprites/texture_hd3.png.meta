@@ -1,28 +1,16 @@
 fileFormatVersion: 2
-guid: 0071c0ed78f79944bb4266523ea9991f
+guid: 6b7506cb463f3fa4e8498b01a62870f5
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7715841099057651616
-    second: Floor
+      213: -8029770999640021880
+    second: texture_hd3_0
   - first:
-      213: 8945933956417778159
-    second: Camino_
+      213: -9008279738294577863
+    second: texture_hd3_1
   - first:
-      213: 2350112386526876593
-    second: RealPlayer
-  - first:
-      213: -7715841099057651616
-    second: texture_md2_0
-  - first:
-      213: 8945933956417778159
-    second: texture_md2_1
-  - first:
-      213: 1656885843399963281
-    second: texture_md2_0
-  - first:
-      213: 2350112386526876593
-    second: texture_md2_2
+      213: 4784350741268844009
+    second: texture_hd3_2
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -58,7 +46,7 @@ TextureImporter:
     mipBias: -100
     wrapU: 1
     wrapV: 1
-    wrapW: -1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -107,18 +95,6 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: Windows Store Apps
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
     buildTarget: Android
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -134,13 +110,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: texture_md2_0
+      name: texture_hd3_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 676
-        height: 676
+        x: 1854
+        y: 1043
+        width: 161
+        height: 168
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -148,20 +124,41 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0602f439663dbe490800000000000000
-      internalID: -7715841099057651616
+      spriteID: 88429b2c1d5809090800000000000000
+      internalID: -8029770999640021880
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: texture_md2_1
+      name: texture_hd3_1
       rect:
         serializedVersion: 2
-        x: 607
-        y: 615
-        width: 65
-        height: 61
+        x: 1596
+        y: 570
+        width: 252
+        height: 252
+      alignment: 9
+      pivot: {x: 0.5214088, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9355a915e492cf280800000000000000
+      internalID: -9008279738294577863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: texture_hd3_2
+      rect:
+        serializedVersion: 2
+        x: 1193
+        y: 1076
+        width: 320
+        height: 320
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -169,8 +166,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: fe1f2682987562c70800000000000000
-      internalID: 8945933956417778159
+      spriteID: 9edc43e86ad656240800000000000000
+      internalID: 4784350741268844009
       vertices: []
       indices: 
       edges: []

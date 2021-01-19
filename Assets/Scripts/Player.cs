@@ -20,7 +20,6 @@ namespace MazesAndMore
         List<Tile> path;
 
         wallDir direction;
-        Vector2 lastIntersec;
 
         bool moving;
         private wallDir oppositeDirection(wallDir dir)
@@ -78,6 +77,10 @@ namespace MazesAndMore
                     moving = true;
                     path = findPath(direction);
                 }
+                else if (Input.GetKeyDown(KeyCode.M))
+                {
+                    transform.localPosition = _bm.getEnd().transform.localPosition;
+                }
 
             }
 
@@ -87,7 +90,7 @@ namespace MazesAndMore
                 if (timeMoving >= time)
                 {
                     transform.localPosition = path[0].transform.localPosition;
-                    wallDir d = getDirection(_bm.getTiles()[inGameX, inGameY].transform.localPosition, path[0].transform.localPosition);
+                    wallDir d = directionController.getDirection(_bm.getTiles()[inGameX, inGameY].transform.localPosition, path[0].transform.localPosition);
                     checkTile();
                     updatePaths(d, false);
                     path.RemoveAt(0);
@@ -103,34 +106,12 @@ namespace MazesAndMore
                     transform.localPosition = Vector3.Lerp(_bm.getTiles()[inGameX, inGameY].transform.localPosition, path[0].transform.localPosition, timeMoving / time);
                     if(timeMoving >= time / 2 && !pathUpdate)
                     {
-                        wallDir d = getDirection(_bm.getTiles()[inGameX, inGameY].transform.localPosition, path[0].transform.localPosition);
+                        wallDir d = directionController.getDirection(_bm.getTiles()[inGameX, inGameY].transform.localPosition, path[0].transform.localPosition);
                         updatePaths(d, true);
                         pathUpdate = true;
                     }
                 }
             }
-        }
-
-        public wallDir getDirection(Vector2 first, Vector2 second)
-        {
-            wallDir d = wallDir.UP;
-            if(first.x < second.x)
-            {
-                d = wallDir.RIGHT;
-            }
-            else if(first.x > second.x)
-            {
-                d = wallDir.LEFT;
-            }
-            else if (first.y < second.y)
-            {
-                d = wallDir.UP;
-            }
-            else if (first.y > second.y)
-            {
-                d = wallDir.DOWN;
-            }
-            return d;
         }
         private int aprox(float val)
         {
@@ -246,7 +227,7 @@ namespace MazesAndMore
             switch (dir)
             {
                 case wallDir.UP:
-                    _bm.getTiles()[inGameX, inGameY].toggleDownPath();
+                        _bm.getTiles()[inGameX, inGameY].toggleDownPath();
                     break;
                 case wallDir.DOWN:
                     _bm.getTiles()[inGameX, inGameY].toggleUpPath();

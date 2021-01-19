@@ -10,6 +10,7 @@ namespace MazesAndMore
         private LevelManager _lm;
         public Camera cam;
         bool[,,] walls;
+
         public void setMap(Map m) {
             map = m;
             walls = new bool[m.getWidth() + 1, m.getHeight() + 1, 4];
@@ -80,6 +81,8 @@ namespace MazesAndMore
 
         public void resetBoard()
         {
+            hintCount = 0;
+
             _tiles[startX, startY].disableStart();
             _tiles[endX, endY].disableEnd();
 
@@ -114,27 +117,26 @@ namespace MazesAndMore
                         walls[x, y - 1, (int)wallDir.UP] = false;
                 }
             }
+
+            for (int i = 0; i < map.getHints().Length; i++)
+            {
+                int posx = map.getHints()[i].x;
+                int posy = map.getHints()[i].y;
+
+                if (posx > map.getWidth() || posx < 0.5)
+                    posx = 0;
+                if (posy > map.getHeight() || posy < 0.5)
+                    posy = 0;
+
+                _tiles[posx, posy].disableHint();
+            }
+
             for (int i = 0; i < map.getWidth() + 1; i++)
             {
                 for (int j = 0; j < map.getHeight() + 1; j++)
                 {
                     _tiles[i, j].disablePaths();
                 }
-            }
-        }
-
-        public void updatePath(int x, int y, wallDir dir)
-        {
-            switch (dir)
-            {
-                case wallDir.UP:
-                    break;
-                case wallDir.DOWN:
-                    break;
-                case wallDir.LEFT:
-                    break;
-                case wallDir.RIGHT:
-                    break;
             }
         }
 
@@ -147,11 +149,89 @@ namespace MazesAndMore
                 }
             }
         }
+
+        public void activateHints()
+        {
+            int start = 0;
+            int end = 0;
+            if (hintCount < 3)
+            {
+                switch (hintCount)
+                {
+                    case 0:
+                        start = 0;
+                        end = map.getHints().Length / 3;
+                        break;
+                    case 1:
+                        start = map.getHints().Length / 3;
+                        end = 2 * map.getHints().Length / 3;
+                        break;
+                    case 2:
+                        start = 2 * map.getHints().Length / 3;
+                        end = map.getHints().Length - 1;
+                        break;
+                }
+                for (int i = start; i < end; i++)
+                {
+                    int posx = map.getHints()[i].x;
+                    int posy = map.getHints()[i].y;
+
+                    if (posx > map.getWidth() || posx < 0.5)
+                        posx = 0;
+                    if (posy > map.getHeight() || posy < 0.5)
+                        posy = 0;
+                    Vector2Int pos1 = new Vector2Int(posx, posy);
+
+                    int posx2 = map.getHints()[i + 1].x;
+                    int posy2 = map.getHints()[i + 1].y;
+
+                    if (posx2 > map.getWidth() || posx2 < 0.5)
+                        posx2 = 0;
+                    if (posy2 > map.getHeight() || posy2 < 0.5)
+                        posy2 = 0;
+
+                    Vector2Int pos2 = new Vector2Int(posx2, posy2);
+
+                    wallDir dir = directionController.getDirection(pos1, pos2);
+
+                    switch (dir)
+                    {
+                        case wallDir.UP:
+                            _tiles[pos1.x, pos1.y].enableUpHint();
+                            _tiles[pos2.x, pos2.y].enableDownHint();
+                            break;
+
+                        case wallDir.DOWN:
+                            _tiles[pos1.x, pos1.y].enableDownHint();
+                            _tiles[pos2.x, pos2.y].enableUpHint();
+                            break;
+
+                        case wallDir.LEFT:
+                            _tiles[pos1.x, pos1.y].enableLeftHint();
+                            _tiles[pos2.x, pos2.y].enableRightHint();
+                            break;
+
+                        case wallDir.RIGHT:
+                            _tiles[pos1.x, pos1.y].enableRightHint();
+                            _tiles[pos2.x, pos2.y].enableLeftHint();
+                            break;
+                    }
+                    _tiles[pos1.x, pos1.y].setPathColor(colHint);
+                    _tiles[pos2.x, pos2.y].setPathColor(colHint);
+                }
+                hintCount++;
+            }
+        }
+
+
         public Tile getEnd() { return _endTile; }
 
         public float getScale() { return totalScale; }
 
         public Tile[,] getTiles() { return _tiles; }
+
+        public Color getColorHint() { return colHint; }
+        public void setColorHint(Color col) { colHint = col; }
 
 
         private Tile[,] _tiles;
@@ -159,7 +239,9 @@ namespace MazesAndMore
         int startX, startY;
         int endX, endY;
         float totalScale = 1f;
+        int hintCount = 0;
         Map map;
+        Color colHint;
         public bool[,,] getWalls() { return walls; }
 
     }

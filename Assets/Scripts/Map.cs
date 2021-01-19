@@ -7,11 +7,18 @@ public class Map
         public int r;
         public int c;
 
-        public Vector2Int s;
-        public Vector2Int f;
+        public JsonTile s;
+        public JsonTile f;
 
-        public Vector2Int[] h;
+        public JsonTile[] h;
         public Walls[] w;
+    }
+
+    [System.Serializable]
+    public class JsonTile
+    {
+        public int x = 0;
+        public int y = 0;
     }
 
     public Map FromJson(string json)
@@ -22,6 +29,7 @@ public class Map
         setWalls(mapaAux.w);
         setStart(mapaAux.s);
         setEnd(mapaAux.f);
+        setHints(mapaAux.h);
         return this;
     }
     public int getWidth()
@@ -54,22 +62,32 @@ public class Map
         _walls = w;
     }
 
-    public void setStart(Vector2Int s)
+    public void setStart(JsonTile s)
     {
         _start = s;
     }
-    public Vector2Int getStart()
+    public JsonTile getStart()
     {
         return _start;
     }
 
-    public void setEnd(Vector2Int e)
+    public void setEnd(JsonTile e)
     {
         _end = e;
     }
-    public Vector2Int getEnd()
+    public JsonTile getEnd()
     {
         return _end;
+    }
+
+    public void setHints(JsonTile[] h)
+    {
+        _hints = h;
+    }
+
+    public JsonTile[] getHints()
+    {
+        return _hints;
     }
 
     [System.Serializable]
@@ -81,9 +99,10 @@ public class Map
 
     int _width;
     int _height;
-    public Vector2Int _start;
-    public Vector2Int _end;
+    public JsonTile _start;
+    public JsonTile _end;
     Walls[] _walls;
+    JsonTile[] _hints;
     static Map instance;
 
 

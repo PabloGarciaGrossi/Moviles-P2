@@ -15,7 +15,7 @@ namespace MazesAndMore {
             bm.init(this);
         }
 
-        public void LoadLevel(string lv, Color col)
+        public void LoadLevel(string lv, Color col, Color colHint)
         {
             m = new Map();
             m.FromJson(lv);
@@ -27,8 +27,8 @@ namespace MazesAndMore {
 
             bm.setMap(m);
             bm.setPathColor(col);
+            bm.setColorHint(colHint);
             player.setLevelManager(bm);
-            //player = GameObject.Instantiate(player);
 
 
         }
