@@ -23,6 +23,57 @@ namespace MazesAndMore
         Vector2 lastIntersec;
 
         bool moving;
+
+        public float swipeDist;//min distancia de recorrido del swipe para que se cuente
+        public float swipeTime;//tiempo minimo que tiene que pasar entre que se pulsa y se deja de pulsar la pantalla para que se cuente el swipe
+        float swipe_time_counter;//cuenta desde que se pulsa en la pantalla hasta que se suelta
+
+        Vector2 swipeBeg;//posicion de la pantalla donde empieza el swipe
+        Vector2 swipeEnd;//posicion de la pantalla donde acaba el swipe
+
+        private bool TouchMovement(out wallDir dir)
+        {
+            dir = wallDir.UP;
+
+            if (Input.touchCount > 0)
+            {
+                Touch touch = Input.GetTouch(0);
+
+                if (touch.phase == TouchPhase.Began)
+                {
+                    swipe_time_counter = swipeTime;
+                    swipeBeg = touch.position;
+                }
+                else if (touch.phase == TouchPhase.Ended)
+                {
+                    if (swipe_time_counter <= 0)
+                    {
+                        swipeEnd = touch.position;
+                        Vector2 swipeDir = swipeEnd - swipeBeg;
+                        if(swipeDir.magnitude >= swipeDist)
+                        {
+                            if (Mathf.Abs(swipeDir.x) > Mathf.Abs(swipeDir.y))
+                            {
+                                if (swipeDir.x > 0)
+                                    dir = wallDir.RIGHT;
+                                else
+                                    dir = wallDir.LEFT;
+                            }
+                            else
+                            {
+                                if (swipeDir.y > 0)
+                                    dir = wallDir.UP;
+                                else
+                                    dir = wallDir.DOWN;
+                            }
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
         private wallDir oppositeDirection(wallDir dir)
         {
             wallDir ret = wallDir.UP;
@@ -52,6 +103,7 @@ namespace MazesAndMore
 
         void Update()
         {
+            swipe_time_counter -= Time.deltaTime;
             if (!moving)
             {
                 if (Input.GetKeyDown(KeyCode.A))
@@ -75,6 +127,11 @@ namespace MazesAndMore
                 else if (Input.GetKeyDown(KeyCode.S))
                 {
                     direction = wallDir.DOWN;
+                    moving = true;
+                    path = findPath(direction);
+                }
+                else if(TouchMovement(out direction))
+                {
                     moving = true;
                     path = findPath(direction);
                 }
