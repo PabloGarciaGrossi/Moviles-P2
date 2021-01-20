@@ -105,8 +105,8 @@ public class Map
     [System.Serializable]
     public class Walls
     {
-        public Vector2Int o;
-        public Vector2Int d;
+        public JsonTile o;
+        public JsonTile d;
     }
 
     int _width;

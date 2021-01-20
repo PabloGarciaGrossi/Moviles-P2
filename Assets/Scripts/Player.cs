@@ -162,7 +162,7 @@ namespace MazesAndMore
                 else
                 {
                     transform.localPosition = Vector3.Lerp(_bm.getTiles()[inGameX, inGameY].transform.localPosition, path[0].transform.localPosition, timeMoving / time);
-                    if (timeMoving >= time / 2 && !pathUpdate)
+                    if (timeMoving >= time / 4 && !pathUpdate)
                     {
                         wallDir d = directionController.getDirection(_bm.getTiles()[inGameX, inGameY].transform.localPosition, path[0].transform.localPosition);
                         updatePaths(d, true);
