@@ -209,7 +209,6 @@ namespace MazesAndMore
             }
         }
 
-
         public Tile getEnd() { return _endTile; }
 
         public float getScale() { return totalScale; }
@@ -219,6 +218,11 @@ namespace MazesAndMore
         public Color getColorHint() { return colHint; }
         public void setColorHint(Color col) { colHint = col; }
 
+        public void RewardAdHints(){ hintCount+=3; Debug.Log("Ad watched"); }
+
+        public void SkippedAdHints() { hintCount++; Debug.Log("Ad Skipped"); }
+
+        public void FailedAd() { Debug.Log("Ad Failed"); }
 
         private Tile[,] _tiles;
         private Tile _endTile;
