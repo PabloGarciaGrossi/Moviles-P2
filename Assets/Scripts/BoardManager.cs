@@ -123,11 +123,6 @@ namespace MazesAndMore
                 int posx = map.getHints()[i].x;
                 int posy = map.getHints()[i].y;
 
-                if (posx > map.getWidth() || posx < 0.5)
-                    posx = 0;
-                if (posy > map.getHeight() || posy < 0.5)
-                    posy = 0;
-
                 _tiles[posx, posy].disableHint();
             }
 
@@ -176,19 +171,10 @@ namespace MazesAndMore
                     int posx = map.getHints()[i].x;
                     int posy = map.getHints()[i].y;
 
-                    if (posx > map.getWidth() || posx < 0.5)
-                        posx = 0;
-                    if (posy > map.getHeight() || posy < 0.5)
-                        posy = 0;
                     Vector2Int pos1 = new Vector2Int(posx, posy);
 
                     int posx2 = map.getHints()[i + 1].x;
                     int posy2 = map.getHints()[i + 1].y;
-
-                    if (posx2 > map.getWidth() || posx2 < 0.5)
-                        posx2 = 0;
-                    if (posy2 > map.getHeight() || posy2 < 0.5)
-                        posy2 = 0;
 
                     Vector2Int pos2 = new Vector2Int(posx2, posy2);
 

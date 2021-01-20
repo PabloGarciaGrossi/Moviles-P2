@@ -158,10 +158,10 @@ RectTransform:
   m_Father: {fileID: 1298434771}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 104.7, y: 237}
-  m_SizeDelta: {x: 50, y: 50}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -229, y: -191}
+  m_SizeDelta: {x: 198.20715, y: 198.20703}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &23351436
 MonoBehaviour:
@@ -500,6 +500,7 @@ MonoBehaviour:
   levelType: 0
   leveltoPlay: 1
   levelPackages:
+  - {fileID: 11400000, guid: 4589272657ac2354f8db3e65680e7e42, type: 2}
   - {fileID: 11400000, guid: 3a9394843b44df84d9e992714a39bcd3, type: 2}
 --- !u!4 &936473574
 Transform:
