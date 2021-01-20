@@ -16,16 +16,15 @@ namespace MazesAndMore
             walls = new bool[m.getWidth() + 1, m.getHeight() + 1, 4];
             _tiles = new Tile[m.getWidth()+1, m.getHeight()+1];
 
+
             for (int i = 0; i < m.getWidth() + 1; i++)
             {
                 for (int j = 0; j < m.getHeight() + 1; j++)
                 {
                     _tiles[i, j] = GameObject.Instantiate(tile);
                     _tiles[i, j].transform.parent = this.transform;
-                    float sum = 0.0f;
-                    if (m.getWidth() % 2 == 0)
-                        sum += 0.5f;
-                    _tiles[i, j].gameObject.transform.position = new Vector2(i - m.getWidth() / 2 + sum, j - m.getHeight() / 2);
+
+                    _tiles[i, j].gameObject.transform.position = new Vector2(i - m.getWidth() / 2, j - m.getHeight() / 2);
                 }
             }
 
@@ -91,6 +90,10 @@ namespace MazesAndMore
                 scale = ((cam.orthographicSize - 1.01f) * 2) / m.getHeight();
 
             gameObject.transform.localScale = new Vector3(scale, scale, 1);
+            if (m.getWidth() % 2 == 0)
+                gameObject.transform.position = new Vector3(gameObject.transform.position.x + _tiles[0, 0].transform.lossyScale.x / 2, gameObject.transform.position.y, gameObject.transform.position.z);
+            else
+                gameObject.transform.position = Vector3.zero;
         }
 
         public void init(LevelManager levelmanager)
