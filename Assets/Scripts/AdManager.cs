@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.Advertisements;
+
+
 
 public class AdManager : MonoBehaviour, IUnityAdsListener
 {
@@ -10,10 +13,13 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
 #elif UNITY_IOS
     private static readonly string storeID = "3980364";
 #endif
-
     private static readonly string videoID = "video";
     private static readonly string rewardedID = "rewardedVideo";
     private static readonly string bannerID = "Banner";
+
+    private Action adSuccess;
+    private Action adSkipped;
+    private Action adFailed;
 
 #if UNITY_EDITOR
     private static bool testMode = true;
@@ -45,10 +51,36 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
             Advertisement.Show(videoID);
         }
     }
+
+    public static void ShowRewardedAd(Action success, Action skipped, Action failed)
+    {
+        instance.adSuccess = success;
+        instance.adSkipped = skipped;
+        instance.adFailed = failed;
+
+        if (Advertisement.IsReady(rewardedID))
+        {
+            Advertisement.Show(rewardedID);
+        }
+    }
     public void OnUnityAdsDidError(string message) { }
     public void OnUnityAdsDidFinish(string placementId, ShowResult showResult)
     {
-
+        if(placementId == rewardedID)
+        {
+            switch (showResult)
+            {
+                case ShowResult.Finished:
+                    adSuccess();
+                    break;
+                case ShowResult.Failed:
+                    adFailed();
+                    break;
+                case ShowResult.Skipped:
+                    adSkipped();
+                    break;
+            }
+        }
     }
     public void OnUnityAdsDidStart(string placementId) { }
     public void OnUnityAdsReady(string placementId) { }
