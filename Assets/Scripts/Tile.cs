@@ -53,12 +53,17 @@ namespace MazesAndMore
 
         public void enableIce()
         {
-
+            iceTile.enabled = true;
         }
 
-        public void disableICe()
+        public void disableIce()
         {
+            iceTile.enabled = false;
+        }
 
+        public bool isIce()
+        {
+            return iceTile.enabled;
         }
 
         public void enableStart()

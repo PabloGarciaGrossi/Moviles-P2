@@ -108,25 +108,21 @@ namespace MazesAndMore
                 if (Input.GetKeyDown(KeyCode.A))
                 {
                     direction = wallDir.LEFT;
-                    moving = true;
                     path = findPath(direction);
                 }
                 else if (Input.GetKeyDown(KeyCode.D))
                 {
                     direction = wallDir.RIGHT;
-                    moving = true;
                     path = findPath(direction);
                 }
                 else if (Input.GetKeyDown(KeyCode.W))
                 {
                     direction = wallDir.UP;
-                    moving = true;
                     path = findPath(direction);
                 }
                 else if (Input.GetKeyDown(KeyCode.S))
                 {
                     direction = wallDir.DOWN;
-                    moving = true;
                     path = findPath(direction);
                 }
                 else if (Input.GetKeyDown(KeyCode.M))
@@ -135,10 +131,12 @@ namespace MazesAndMore
                 }
                 else if (TouchMovement(out direction))
                 {
-                    moving = true;
                     path = findPath(direction);
                 }
-
+                if(path != null && path.Count != 0)
+                {
+                    moving = true;
+                }
             }
 
             if (moving)
@@ -146,17 +144,20 @@ namespace MazesAndMore
                 timeMoving += Time.deltaTime;
                 if (timeMoving >= time)
                 {
-                    transform.localPosition = path[0].transform.localPosition;
-                    wallDir d = directionController.getDirection(_bm.getTiles()[inGameX, inGameY].transform.localPosition, path[0].transform.localPosition);
-                    checkTile();
-                    updatePaths(d, false);
-                    path.RemoveAt(0);
-                    timeMoving = 0;
-                    pathUpdate = false;
+                    if (path.Count != 0)
+                    {
+                        transform.localPosition = path[0].transform.localPosition;
+                        wallDir d = directionController.getDirection(_bm.getTiles()[inGameX, inGameY].transform.localPosition, path[0].transform.localPosition);
+                        checkTile();
+                        updatePaths(d, false);
+                        path.RemoveAt(0);
+                    }
                     if (path.Count == 0)
                     {
                         moving = false;
                     }
+                    timeMoving = 0;
+                    pathUpdate = false;
                 }
                 else
                 {
@@ -201,26 +202,25 @@ namespace MazesAndMore
             }
             else
             {
-                switch (dir)
-                {
-                    case wallDir.UP:
-                        y += 1;
-                        break;
-                    case wallDir.DOWN:
-                        y -= 1;
-                        break;
-                    case wallDir.LEFT:
-                        x -= 1;
-                        break;
-                    case wallDir.RIGHT:
-                        x += 1;
-                        break;
-                }
+                directionController.getVectorDir(dir, ref x, ref y);
+                            path.Add(_bm.getTiles()[x, y]);
             }
-            path.Add(_bm.getTiles()[x, y]);
 
             while (!foundIntersection)
             {
+                if (_bm.getTiles()[x, y].isIce())
+                {
+                    if(!_bm.getWalls()[x, y, (int)dir])
+                    { 
+                        directionController.getVectorDir(dir, ref x, ref y);
+                        path.Add(_bm.getTiles()[x, y]);
+                    }
+                    else
+                    {
+                        foundIntersection = true;
+                    }
+                    continue;
+                }
                 wallDir aux = dir;
                 foreach (wallDir d in (wallDir[])Enum.GetValues(typeof(wallDir)))
                 {
@@ -231,25 +231,13 @@ namespace MazesAndMore
                     }
                 }
                 if (options > 1 || (aux == dir && options == 0))
-                    foundIntersection = true;
+                {
+                        foundIntersection = true;
+                }
                 else
                 {
                     dir = aux;
-                    switch (dir)
-                    {
-                        case wallDir.UP:
-                            y += 1;
-                            break;
-                        case wallDir.DOWN:
-                            y -= 1;
-                            break;
-                        case wallDir.LEFT:
-                            x -= 1;
-                            break;
-                        case wallDir.RIGHT:
-                            x += 1;
-                            break;
-                    }
+                    directionController.getVectorDir(dir, ref x, ref y);
                     options = 0;
                     path.Add(_bm.getTiles()[x, y]);
                 }
@@ -269,6 +257,7 @@ namespace MazesAndMore
             inGameY = y;
             w = width;
             h = height;
+            path = new List<Tile>();
             transform.position = new Vector2(-w / 2 + x, -h / 2 + y);
         }
 

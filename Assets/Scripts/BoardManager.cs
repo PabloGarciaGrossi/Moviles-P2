@@ -69,6 +69,14 @@ namespace MazesAndMore
                         walls[x, y-1, (int)wallDir.UP] = true;
                 }
             }
+
+            for(int i = 0; i < m.getIce().Length; i++)
+            {
+                int posx = m.getIce()[i].x;
+                int posy = m.getIce()[i].y;
+
+                _tiles[posx, posy].enableIce();
+            }
             float sc = (float)cam.pixelWidth / (float)cam.pixelHeight;
             totalScale = (cam.orthographicSize * 2 * sc) / m.getWidth();
             this.transform.localScale = new Vector3(totalScale, totalScale,1);
@@ -124,6 +132,14 @@ namespace MazesAndMore
                 int posy = map.getHints()[i].y;
 
                 _tiles[posx, posy].disableHint();
+            }
+
+            for (int i = 0; i < map.getIce().Length; i++)
+            {
+                int posx = map.getIce()[i].x;
+                int posy = map.getIce()[i].y;
+
+                _tiles[posx, posy].disableIce();
             }
 
             for (int i = 0; i < map.getWidth() + 1; i++)
@@ -217,6 +233,7 @@ namespace MazesAndMore
         public Tile[,] getTiles() { return _tiles; }
 
         public Color getColorHint() { return colHint; }
+
         public void setColorHint(Color col) { colHint = col; }
 
 

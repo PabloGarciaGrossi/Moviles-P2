@@ -12,6 +12,7 @@ public class Map
 
         public JsonTile[] h;
         public Walls[] w;
+        public JsonTile[] i;
     }
 
     [System.Serializable]
@@ -30,6 +31,7 @@ public class Map
         setStart(mapaAux.s);
         setEnd(mapaAux.f);
         setHints(mapaAux.h);
+        setIce(mapaAux.i);
         return this;
     }
     public int getWidth()
@@ -90,6 +92,16 @@ public class Map
         return _hints;
     }
 
+    public void setIce(JsonTile[] i)
+    {
+        _ice = i;
+    }
+
+    public JsonTile[] getIce()
+    {
+        return _ice;
+    }
+
     [System.Serializable]
     public class Walls
     {
@@ -103,6 +115,7 @@ public class Map
     public JsonTile _end;
     Walls[] _walls;
     JsonTile[] _hints;
+    JsonTile[] _ice;
     static Map instance;
 
 

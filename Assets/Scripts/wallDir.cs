@@ -31,5 +31,24 @@ namespace MazesAndMore
             }
             return d;
         }
+
+        public static void getVectorDir(wallDir dir, ref int x, ref int y)
+        {
+            switch (dir)
+            {
+                case wallDir.UP:
+                    y += 1;
+                    break;
+                case wallDir.DOWN:
+                    y -= 1;
+                    break;
+                case wallDir.LEFT:
+                    x -= 1;
+                    break;
+                case wallDir.RIGHT:
+                    x += 1;
+                    break;
+            }
+        }
     }
 }
