@@ -22,7 +22,10 @@ namespace MazesAndMore
                 {
                     _tiles[i, j] = GameObject.Instantiate(tile);
                     _tiles[i, j].transform.parent = this.transform;
-                    _tiles[i, j].gameObject.transform.position = new Vector2(i - m.getWidth() / 2, j - m.getHeight() / 2);
+                    float sum = 0.0f;
+                    if (m.getWidth() % 2 == 0)
+                        sum += 0.5f;
+                    _tiles[i, j].gameObject.transform.position = new Vector2(i - m.getWidth() / 2 + sum, j - m.getHeight() / 2);
                 }
             }
 
@@ -77,9 +80,17 @@ namespace MazesAndMore
 
                 _tiles[posx, posy].enableIce();
             }
-            float sc = (float)cam.pixelWidth / (float)cam.pixelHeight;
-            totalScale = (cam.orthographicSize * 2 * sc) / m.getWidth();
-            this.transform.localScale = new Vector3(totalScale, totalScale,1);
+
+            float r, scale;
+            r = cam.pixelWidth / (float)cam.pixelHeight;
+
+
+            scale = ((cam.orthographicSize - 0.01f) * 2 * r) / m.getWidth();
+
+            if (r > 3 / 5.0f)
+                scale = ((cam.orthographicSize - 1.01f) * 2) / m.getHeight();
+
+            gameObject.transform.localScale = new Vector3(scale, scale, 1);
         }
 
         public void init(LevelManager levelmanager)
