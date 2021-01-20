@@ -14,6 +14,10 @@ namespace MazesAndMore
         public int leveltoPlay = 0;
 #endif
         public LevelPackage[] levelPackages;
+
+        public int lastLevelUnlocked;
+        public int hints;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -46,6 +50,21 @@ namespace MazesAndMore
                 lm.resetLevel();
                 lm.LoadLevel(levelPackages[levelType].levels[leveltoPlay].text, levelPackages[levelType].pathColor, levelPackages[levelType].hintColor);
             }
+        }
+        public void Save()
+        {
+            PlayerProgress progress = new PlayerProgress(lastLevelUnlocked, hints);
+
+            progress.Save();
+        }
+
+        public void Load()
+        {
+            PlayerProgress progress = new PlayerProgress(0, 0);
+
+            progress.Load();
+            lastLevelUnlocked = progress.lastLevelUnlocked;
+            hints = progress.hints;
         }
     }
 }
