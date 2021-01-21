@@ -65,6 +65,7 @@ namespace MazesAndMore {
 
         public void goHome()
         {
+            GameManager.Save();
             SceneManager.LoadScene("MenuScene");
         }
     }

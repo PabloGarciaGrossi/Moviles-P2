@@ -24,7 +24,6 @@ namespace MazesAndMore
         // Start is called before the first frame update
         void Start()
         {
-            //Save();
             if(_instance != null)
             {
                 _instance.lm = lm;
@@ -44,6 +43,7 @@ namespace MazesAndMore
             if (mm)
             {
                 mm.loadMenu(levelPackages);
+                GameManager.Load();
             }
 
             if(lm)
@@ -65,6 +65,8 @@ namespace MazesAndMore
                 }
                 else if (lastLevelUnlocked_ice < leveltoPlay)
                     lastLevelUnlocked_ice = leveltoPlay;
+
+                GameManager.Save();
 
                 if (leveltoPlay < levelPackages[levelType].levels.Length)
                 {

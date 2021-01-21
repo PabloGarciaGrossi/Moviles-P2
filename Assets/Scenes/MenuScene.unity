@@ -832,6 +832,63 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 837632354}
   m_CullTransparentMesh: 0
+--- !u!1001 &901088357
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1456153917776541147, guid: 3e9386a037973c346bb4fd681da66829, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 101.656006
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456153917776541147, guid: 3e9386a037973c346bb4fd681da66829, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 426.33563
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456153917776541147, guid: 3e9386a037973c346bb4fd681da66829, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -194.77873
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456153917776541147, guid: 3e9386a037973c346bb4fd681da66829, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456153917776541147, guid: 3e9386a037973c346bb4fd681da66829, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456153917776541147, guid: 3e9386a037973c346bb4fd681da66829, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456153917776541147, guid: 3e9386a037973c346bb4fd681da66829, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456153917776541147, guid: 3e9386a037973c346bb4fd681da66829, type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456153917776541147, guid: 3e9386a037973c346bb4fd681da66829, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456153917776541147, guid: 3e9386a037973c346bb4fd681da66829, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456153917776541147, guid: 3e9386a037973c346bb4fd681da66829, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1456153917776541149, guid: 3e9386a037973c346bb4fd681da66829, type: 3}
+      propertyPath: m_Name
+      value: AdManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3e9386a037973c346bb4fd681da66829, type: 3}
 --- !u!1 &927695494
 GameObject:
   m_ObjectHideFlags: 0
@@ -1355,7 +1412,6 @@ MonoBehaviour:
   lvlButton: {fileID: 5044060817794536982, guid: 1d10f1d41e9aa3b4b8e18c090fba91bd, type: 3}
   horizontalPannel: {fileID: 8120776473293385270, guid: 1a0e1c9b4c1fb644eb1b87d6f2c34b58, type: 3}
   verticalZone: {fileID: 1823465221}
-  completeLevel: {r: 0.118725546, g: 0.8679245, b: 0.19990683, a: 1}
 --- !u!4 &1537538382
 Transform:
   m_ObjectHideFlags: 0
@@ -1382,6 +1438,7 @@ GameObject:
   - component: {fileID: 1650418585}
   - component: {fileID: 1650418584}
   - component: {fileID: 1650418583}
+  - component: {fileID: 1650418586}
   m_Layer: 5
   m_Name: Adds
   m_TagString: Untagged
@@ -1450,7 +1507,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1650418584}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1650418586}
+        m_TargetAssemblyTypeName: MazesAndMore.AddsButton, Assembly-CSharp
+        m_MethodName: ShowRewardedAdd
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1650418584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1489,6 +1558,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1650418581}
   m_CullTransparentMesh: 0
+--- !u!114 &1650418586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650418581}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5692f5c6a8730144a42abd54d665bc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1771441480
 GameObject:
   m_ObjectHideFlags: 0

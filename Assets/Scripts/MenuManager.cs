@@ -92,7 +92,6 @@ namespace MazesAndMore
         public void loadMenu(LevelPackage[] lvls)
         {
             _lvls = lvls;
-            GameManager.Load();
         }
 
         public void goLevel(int lvl)
