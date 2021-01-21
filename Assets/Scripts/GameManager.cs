@@ -19,7 +19,7 @@ namespace MazesAndMore
 
         static int lastLevelUnlocked_standard;
         static int lastLevelUnlocked_ice;
-        static int hints;
+        static int hints = 3;
 
         // Start is called before the first frame update
         void Start()
@@ -100,6 +100,11 @@ namespace MazesAndMore
         public static int getHints()
         {
             return hints;
+        }
+
+        public static void addHints(int h)
+        {
+            hints += h;
         }
 
         public static void loadLevel(int pack, int lvl)

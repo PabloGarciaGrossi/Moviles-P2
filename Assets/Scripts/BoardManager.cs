@@ -183,7 +183,7 @@ namespace MazesAndMore
         {
             int start = 0;
             int end = 0;
-            if (hintCount < 3)
+            if (hintCount < 3 && GameManager.getHints() > 0)
             {
                 switch (hintCount)
                 {
@@ -240,6 +240,7 @@ namespace MazesAndMore
                     _tiles[pos2.x, pos2.y].setPathColor(colHint);
                 }
                 hintCount++;
+                GameManager.addHints(-1);
             }
         }
 
@@ -271,9 +272,9 @@ namespace MazesAndMore
 
         public void setColorHint(Color col) { colHint = col; }
 
-        public void RewardAdHints(){ hintCount+=3; Debug.Log("Ad watched"); }
+        public void RewardAdHints(){ GameManager.addHints(3); Debug.Log("Ad watched"); }
 
-        public void SkippedAdHints() { hintCount++; Debug.Log("Ad Skipped"); }
+        public void SkippedAdHints() { GameManager.addHints(1); Debug.Log("Ad Skipped"); }
 
         public void FailedAd() { Debug.Log("Ad Failed"); }
 
