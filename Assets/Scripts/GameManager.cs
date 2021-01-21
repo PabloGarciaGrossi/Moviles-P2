@@ -10,9 +10,9 @@ namespace MazesAndMore
         public MenuManager mm;
 #if UNITY_EDITOR
         [Tooltip("Si es nivel clásico o con hielo")]
-        public int levelType = 0;
+        public static int levelType = 0;
         [Tooltip("Nivel que se va a jugar para testeo")]
-        public int leveltoPlay = 0;
+        public static int leveltoPlay = 0;
 #endif
         public LevelPackage[] levelPackages;
 
@@ -58,11 +58,6 @@ namespace MazesAndMore
                 lm.resetLevel();
                 lm.LoadLevel(levelPackages[levelType].levels[leveltoPlay].text, levelPackages[levelType].pathColor, levelPackages[levelType].hintColor);
             }
-
-            else if(mm != null)
-            {
-               leveltoPlay = mm.chargePlayScene();
-            }
         }
         public void Save()
         {
@@ -78,6 +73,12 @@ namespace MazesAndMore
             progress.Load();
             lastLevelUnlocked = progress.lastLevelUnlocked;
             hints = progress.hints;
+        }
+
+        public static void loadLevel(int pack, int lvl)
+        {
+            levelType = pack;
+            leveltoPlay = lvl;
         }
     }
 }

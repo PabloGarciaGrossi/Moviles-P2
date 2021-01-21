@@ -19,6 +19,7 @@ namespace MazesAndMore
 
         LevelPackage[] _lvls;
         int lvlToLoad;
+        int lvlPack = 0;
 
         private void Start()
         {
@@ -45,6 +46,7 @@ namespace MazesAndMore
 
         public void loadLevels(int lvlToLoad)
         {
+            lvlPack = lvlToLoad;
             int length = _lvls[lvlToLoad].levels.Length;
             int rows = 0;
             if (length % 5 == 0)
@@ -80,15 +82,16 @@ namespace MazesAndMore
         public void goLevel(int lvl)
         {
             lvlToLoad = lvl;
+            chargePlayScene();
         }
 
-        public int chargePlayScene()
+        public void chargePlayScene()
         {
             if(lvlToLoad != -1)
             {
+                GameManager.loadLevel(lvlPack, lvlToLoad);
                 SceneManager.LoadScene("SampleScene");
             }
-            return lvlToLoad;
         }
     }
 }
