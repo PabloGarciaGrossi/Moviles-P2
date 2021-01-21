@@ -80,20 +80,7 @@ namespace MazesAndMore
                 _tiles[posx, posy].enableIce();
             }
 
-            float r, scale;
-            r = cam.pixelWidth / (float)cam.pixelHeight;
-
-
-            scale = ((cam.orthographicSize - 0.01f) * 2 * r) / m.getWidth();
-
-            if (r > 3 / 5.0f)
-                scale = ((cam.orthographicSize - 1.01f) * 2) / m.getHeight();
-
-            gameObject.transform.localScale = new Vector3(scale, scale, 1);
-            if (m.getWidth() % 2 == 0)
-                gameObject.transform.position = new Vector3(gameObject.transform.position.x + _tiles[0, 0].transform.lossyScale.x / 2, gameObject.transform.position.y, gameObject.transform.position.z);
-            else
-                gameObject.transform.position = Vector3.zero;
+            scale();
         }
 
         public void init(LevelManager levelmanager)
@@ -108,6 +95,57 @@ namespace MazesAndMore
             _tiles[startX, startY].disableStart();
             _tiles[endX, endY].disableEnd();
 
+            ResetWalls();
+            ResetHints();
+            ResetIce();
+            ResetPaths();
+        }
+
+        public void setPathColor(Color col) {
+            for (int i = 0; i < map.getWidth() + 1; i++)
+            {
+                for (int j = 0; j < map.getHeight() + 1; j++)
+                {
+                    _tiles[i, j].setColor(col);
+                }
+            }
+        }
+
+        public void ResetPaths()
+        {
+            for (int i = 0; i < map.getWidth() + 1; i++)
+            {
+                for (int j = 0; j < map.getHeight() + 1; j++)
+                {
+                    _tiles[i, j].disablePaths();
+                }
+            }
+        }
+
+        public void ResetHints()
+        {
+            for (int i = 0; i < map.getHints().Length; i++)
+            {
+                int posx = map.getHints()[i].x;
+                int posy = map.getHints()[i].y;
+
+                _tiles[posx, posy].disableHint();
+            }
+        }
+
+        public void ResetIce()
+        {
+            for (int i = 0; i < map.getIce().Length; i++)
+            {
+                int posx = map.getIce()[i].x;
+                int posy = map.getIce()[i].y;
+
+                _tiles[posx, posy].disableIce();
+            }
+        }
+
+        public void ResetWalls()
+        {
             for (int i = 0; i < map.getWalls().Length; i++)
             {
                 int posxO = map.getWalls()[i].o.x;
@@ -137,40 +175,6 @@ namespace MazesAndMore
                     walls[x, y, (int)wallDir.DOWN] = false;
                     if (y - 1 >= 0)
                         walls[x, y - 1, (int)wallDir.UP] = false;
-                }
-            }
-
-            for (int i = 0; i < map.getHints().Length; i++)
-            {
-                int posx = map.getHints()[i].x;
-                int posy = map.getHints()[i].y;
-
-                _tiles[posx, posy].disableHint();
-            }
-
-            for (int i = 0; i < map.getIce().Length; i++)
-            {
-                int posx = map.getIce()[i].x;
-                int posy = map.getIce()[i].y;
-
-                _tiles[posx, posy].disableIce();
-            }
-
-            for (int i = 0; i < map.getWidth() + 1; i++)
-            {
-                for (int j = 0; j < map.getHeight() + 1; j++)
-                {
-                    _tiles[i, j].disablePaths();
-                }
-            }
-        }
-
-        public void setPathColor(Color col) {
-            for (int i = 0; i < map.getWidth() + 1; i++)
-            {
-                for (int j = 0; j < map.getHeight() + 1; j++)
-                {
-                    _tiles[i, j].setColor(col);
                 }
             }
         }
@@ -237,6 +241,24 @@ namespace MazesAndMore
                 }
                 hintCount++;
             }
+        }
+
+        public void scale()
+        {
+            float r, scale;
+            r = cam.pixelWidth / (float)cam.pixelHeight;
+
+
+            scale = ((cam.orthographicSize - 0.01f) * 2 * r) / map.getWidth();
+
+            if (r > 3 / 5.0f)
+                scale = ((cam.orthographicSize - 1.01f) * 2) / map.getHeight();
+
+            gameObject.transform.localScale = new Vector3(scale, scale, 1);
+            if (map.getWidth() % 2 == 0)
+                gameObject.transform.position = new Vector3(gameObject.transform.position.x + _tiles[0, 0].transform.lossyScale.x / 2, gameObject.transform.position.y, gameObject.transform.position.z);
+            else
+                gameObject.transform.position = Vector3.zero;
         }
 
         public Tile getEnd() { return _endTile; }

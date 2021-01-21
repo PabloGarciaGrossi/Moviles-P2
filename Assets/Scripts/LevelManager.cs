@@ -8,7 +8,7 @@ namespace MazesAndMore {
         // Start is called before the first frame update
         public BoardManager bm;
         public Player player;
-        bool solved = false;
+
         Map m;
         void Start()
         {
@@ -29,8 +29,6 @@ namespace MazesAndMore {
             bm.setPathColor(col);
             bm.setColorHint(colHint);
             player.setLevelManager(bm);
-
-
         }
 
         public void resetLevel()
@@ -41,6 +39,14 @@ namespace MazesAndMore {
         public bool isWall(int x, int y, wallDir w)
         {
             return bm.getWalls()[x, y, (int)w];
+        }
+
+        public void reload()
+        {
+            bm.transform.localScale = new Vector3(1, 1, 1);
+            bm.ResetPaths();
+            player.setStartPos(m.getStart().x, m.getStart().y, m.getWidth(), m.getHeight());
+            bm.scale();
         }
     }
 }
