@@ -7,6 +7,7 @@ namespace MazesAndMore
     public class GameManager : MonoBehaviour
     {
         public LevelManager lm;
+        public MenuManager mm;
 #if UNITY_EDITOR
         [Tooltip("Si es nivel clásico o con hielo")]
         public int levelType = 0;
@@ -24,6 +25,7 @@ namespace MazesAndMore
             if(_instance != null)
             {
                 _instance.lm = lm;
+                _instance.mm = mm;
                 DestroyImmediate(gameObject);
                 return;
             }
@@ -33,8 +35,14 @@ namespace MazesAndMore
         }
 
         static GameManager _instance;
+
         private void StartNewScene()
         {
+            if (mm)
+            {
+                mm.loadMenu(levelPackages);
+            }
+
             if(lm)
             {
                 //lanzar nivel
@@ -44,11 +52,16 @@ namespace MazesAndMore
 
         private void Update()
         {
-            if(lm.player.transform.position == lm.bm.getEnd().transform.position)
+            if(lm != null && lm.player.transform.position == lm.bm.getEnd().transform.position)
             {
                 leveltoPlay++;
                 lm.resetLevel();
                 lm.LoadLevel(levelPackages[levelType].levels[leveltoPlay].text, levelPackages[levelType].pathColor, levelPackages[levelType].hintColor);
+            }
+
+            else if(mm != null)
+            {
+               leveltoPlay = mm.chargePlayScene();
             }
         }
         public void Save()
