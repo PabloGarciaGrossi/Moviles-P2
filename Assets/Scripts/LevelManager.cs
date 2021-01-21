@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace MazesAndMore {
     public class LevelManager : MonoBehaviour
     {
         // Start is called before the first frame update
         public BoardManager bm;
+        public CanvasManager canvas;
         public Player player;
-        bool onPause = false;
 
         Map m;
         void Start()
@@ -50,9 +51,21 @@ namespace MazesAndMore {
             bm.scale();
         }
 
-        public void pause()
+        public void pauseScene()
         {
             player.setPause(true);
+            canvas.pauseScene();
+        }
+
+        public void continueScene()
+        {
+            player.setPause(false);
+            canvas.continueScene();
+        }
+
+        public void goHome()
+        {
+            SceneManager.LoadScene("MenuScene");
         }
     }
 }
