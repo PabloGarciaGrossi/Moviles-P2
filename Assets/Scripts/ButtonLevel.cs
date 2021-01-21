@@ -11,12 +11,27 @@ namespace MazesAndMore
         public Image square;
         public Text text;
         public Button button;
+        public Color completeLevel;
+        public Image Lock;
         MenuManager mm;
         int lvl;
 
-        public void setColor(Color col)
+        public void setLocked()
         {
-            square.color = col;
+            Lock.enabled = true;
+            button.enabled = false;
+            square.color = completeLevel;
+        }
+        public void setUnlocked()
+        {
+            Lock.enabled = false;
+            button.enabled = true;
+            square.color = Color.white;
+        }
+        public void setComplete()
+        {
+            Lock.enabled = false;
+            button.enabled = true;
         }
 
         public void setLvl(int _lvl)

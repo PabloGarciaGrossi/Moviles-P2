@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 using UnityEngine;
 
 namespace MazesAndMore
@@ -16,8 +17,9 @@ namespace MazesAndMore
 #endif
         public LevelPackage[] levelPackages;
 
-        public int lastLevelUnlocked;
-        public int hints;
+        static int lastLevelUnlocked_standard;
+        static int lastLevelUnlocked_ice;
+        static int hints;
 
         // Start is called before the first frame update
         void Start()
@@ -55,24 +57,49 @@ namespace MazesAndMore
             if(lm != null && lm.player.transform.position == lm.bm.getEnd().transform.position)
             {
                 leveltoPlay++;
-                lm.resetLevel();
-                lm.LoadLevel(levelPackages[levelType].levels[leveltoPlay].text, levelPackages[levelType].pathColor, levelPackages[levelType].hintColor);
+                if (levelType == 0)
+                    lastLevelUnlocked_standard = leveltoPlay;
+                else lastLevelUnlocked_ice = leveltoPlay;
+
+                if (leveltoPlay < levelPackages[levelType].levels.Length)
+                {
+                    lm.resetLevel();
+                    lm.LoadLevel(levelPackages[levelType].levels[leveltoPlay].text, levelPackages[levelType].pathColor, levelPackages[levelType].hintColor);
+                }
+                else
+                {
+                    SceneManager.LoadScene("MenuScene");
+                }
             }
         }
-        public void Save()
+        public static void Save()
         {
-            PlayerProgress progress = new PlayerProgress(lastLevelUnlocked, hints);
+            PlayerProgress progress = new PlayerProgress(lastLevelUnlocked_standard, lastLevelUnlocked_ice, hints);
 
             progress.Save();
         }
 
-        public void Load()
+        public static void Load()
         {
-            PlayerProgress progress = new PlayerProgress(0, 0);
+            PlayerProgress progress = new PlayerProgress(0, 0, 0);
 
             progress.Load();
-            lastLevelUnlocked = progress.lastLevelUnlocked;
+            lastLevelUnlocked_standard = progress.lastLevelUnlocked_standard;
+            lastLevelUnlocked_ice = progress.lastLevelUnlocked_ice;
             hints = progress.hints;
+        }
+
+        public static int getLastLevelIce()
+        {
+            return lastLevelUnlocked_ice;
+        }
+        public static int getLastLevelStandard()
+        {
+            return lastLevelUnlocked_standard;
+        }
+        public static int getHints()
+        {
+            return hints;
         }
 
         public static void loadLevel(int pack, int lvl)

@@ -13,7 +13,6 @@ namespace MazesAndMore
         public ButtonLevel lvlButton;
         public GameObject horizontalPannel;
         public GameObject verticalZone;
-        public Color completeLevel;
 
         GameObject[] pannels;
 
@@ -68,6 +67,22 @@ namespace MazesAndMore
                     lvl.transform.SetParent(aux.transform);
                     lvl.setLvl(count);
                     lvl.setMenuManager(this);
+                    int lvlNumber = i * rows + j;
+                    if(lvlNumber< GameManager.getLastLevelStandard() && lvlToLoad == 0 
+                        || lvlNumber < GameManager.getLastLevelIce() && lvlToLoad ==1)
+                    {
+                        lvl.setComplete();
+                    }
+                    else if (lvlNumber == GameManager.getLastLevelStandard() && lvlToLoad == 0 
+                        || lvlNumber == GameManager.getLastLevelIce() && lvlToLoad == 1)
+                    {
+                        lvl.setUnlocked();
+                    }
+                    else
+                    {
+                        lvl.setLocked();
+                    }
+
                     count++;
                 }
             }
@@ -77,6 +92,7 @@ namespace MazesAndMore
         public void loadMenu(LevelPackage[] lvls)
         {
             _lvls = lvls;
+            GameManager.Load();
         }
 
         public void goLevel(int lvl)

@@ -228,6 +228,8 @@ MonoBehaviour:
   square: {fileID: 2002374988816401901}
   text: {fileID: 2002374988087194011}
   button: {fileID: 2002374988816401900}
+  completeLevel: {r: 0, g: 0, b: 0, a: 0}
+  Lock: {fileID: 8094010484492211955}
 --- !u!1 &6465358935371546621
 GameObject:
   m_ObjectHideFlags: 0

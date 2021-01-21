@@ -4,12 +4,14 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerProgress
 {
-    public int lastLevelUnlocked;
+    public int lastLevelUnlocked_standard;
+    public int lastLevelUnlocked_ice;
     public int hints;
 
-    public PlayerProgress(int lastLevel, int h)
+    public PlayerProgress(int lastLevelSt, int lastLevelIc, int h)
     {
-        lastLevelUnlocked = lastLevel;
+        lastLevelUnlocked_standard = lastLevelSt;
+        lastLevelUnlocked_ice = lastLevelIc;
         hints = h;
     }
 
@@ -22,7 +24,8 @@ public class PlayerProgress
     {
         PlayerProgress data = SaveSystem.LoadProgress();
 
-        lastLevelUnlocked = data.lastLevelUnlocked;
+        lastLevelUnlocked_standard = data.lastLevelUnlocked_standard;
+        lastLevelUnlocked_ice = data.lastLevelUnlocked_ice;
         hints = data.hints;
     }
 }
