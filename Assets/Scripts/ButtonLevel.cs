@@ -10,6 +10,7 @@ namespace MazesAndMore
         [Tooltip("Sprite del recuadro")]
         public Image square;
         public Text text;
+        public Button button;
         MenuManager mm;
         int lvl;
 
