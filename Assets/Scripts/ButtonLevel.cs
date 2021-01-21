@@ -20,7 +20,6 @@ namespace MazesAndMore
         {
             Lock.enabled = true;
             button.enabled = false;
-            square.color = completeLevel;
         }
         public void setUnlocked()
         {
@@ -32,12 +31,13 @@ namespace MazesAndMore
         {
             Lock.enabled = false;
             button.enabled = true;
+            square.color = completeLevel;
         }
 
         public void setLvl(int _lvl)
         {
             lvl = _lvl;
-            text.text = lvl.ToString();
+            text.text = (lvl+1).ToString();
         }
 
         public void setMenuManager(MenuManager menu)

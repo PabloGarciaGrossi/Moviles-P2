@@ -43,17 +43,17 @@ namespace MazesAndMore
             levelPanel.SetActive(true);
         }
 
-        public void loadLevels(int lvlToLoad)
+        public void loadLevels(int pack)
         {
-            lvlPack = lvlToLoad;
-            int length = _lvls[lvlToLoad].levels.Length;
+            lvlPack = pack;
+            int length = _lvls[lvlPack].levels.Length;
             int rows = 0;
             if (length % 5 == 0)
                 rows = length / 5;
             else
                 rows = length / 5 + 1;
 
-            int count = 1;
+            int count = 0;
             pannels = new GameObject[rows];
             for (int i = 0; i < rows; i++)
             {
@@ -68,13 +68,13 @@ namespace MazesAndMore
                     lvl.setLvl(count);
                     lvl.setMenuManager(this);
                     int lvlNumber = i * rows + j;
-                    if(lvlNumber< GameManager.getLastLevelStandard() && lvlToLoad == 0 
-                        || lvlNumber < GameManager.getLastLevelIce() && lvlToLoad ==1)
+                    if(lvlNumber< GameManager.getLastLevelStandard() && lvlPack == 0 
+                        || lvlNumber < GameManager.getLastLevelIce() && lvlPack ==1)
                     {
                         lvl.setComplete();
                     }
-                    else if (lvlNumber == GameManager.getLastLevelStandard() && lvlToLoad == 0 
-                        || lvlNumber == GameManager.getLastLevelIce() && lvlToLoad == 1)
+                    else if (lvlNumber == GameManager.getLastLevelStandard() && lvlPack == 0 
+                        || lvlNumber == GameManager.getLastLevelIce() && lvlPack == 1)
                     {
                         lvl.setUnlocked();
                     }

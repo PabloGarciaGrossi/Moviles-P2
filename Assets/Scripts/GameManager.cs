@@ -17,13 +17,14 @@ namespace MazesAndMore
 #endif
         public LevelPackage[] levelPackages;
 
-        static int lastLevelUnlocked_standard;
-        static int lastLevelUnlocked_ice;
+        public static int lastLevelUnlocked_standard=0;
+        public static int lastLevelUnlocked_ice=0;
         static int hints;
 
         // Start is called before the first frame update
         void Start()
         {
+            //Save();
             if(_instance != null)
             {
                 _instance.lm = lm;
@@ -58,8 +59,12 @@ namespace MazesAndMore
             {
                 leveltoPlay++;
                 if (levelType == 0)
-                    lastLevelUnlocked_standard = leveltoPlay;
-                else lastLevelUnlocked_ice = leveltoPlay;
+                {
+                    if(lastLevelUnlocked_standard < leveltoPlay)
+                        lastLevelUnlocked_standard = leveltoPlay;
+                }
+                else if (lastLevelUnlocked_ice < leveltoPlay)
+                    lastLevelUnlocked_ice = leveltoPlay;
 
                 if (leveltoPlay < levelPackages[levelType].levels.Length)
                 {
