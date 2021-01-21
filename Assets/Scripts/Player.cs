@@ -18,6 +18,7 @@ namespace MazesAndMore
         int h;
         bool pathUpdate = false;
         List<Tile> path;
+        bool onPause = false;
 
         wallDir direction;
 
@@ -102,71 +103,74 @@ namespace MazesAndMore
 
         void Update()
         {
-            swipe_time_counter -= Time.deltaTime;
-            if (!moving)
+            if (!onPause)
             {
-                if (Input.GetKeyDown(KeyCode.A))
+                swipe_time_counter -= Time.deltaTime;
+                if (!moving)
                 {
-                    direction = wallDir.LEFT;
-                    path = findPath(direction);
+                    if (Input.GetKeyDown(KeyCode.A))
+                    {
+                        direction = wallDir.LEFT;
+                        path = findPath(direction);
+                    }
+                    else if (Input.GetKeyDown(KeyCode.D))
+                    {
+                        direction = wallDir.RIGHT;
+                        path = findPath(direction);
+                    }
+                    else if (Input.GetKeyDown(KeyCode.W))
+                    {
+                        direction = wallDir.UP;
+                        path = findPath(direction);
+                    }
+                    else if (Input.GetKeyDown(KeyCode.S))
+                    {
+                        direction = wallDir.DOWN;
+                        path = findPath(direction);
+                    }
+                    else if (Input.GetKeyDown(KeyCode.M))
+                    {
+                        transform.localPosition = _bm.getEnd().transform.localPosition;
+                    }
+                    else if (TouchMovement(out direction))
+                    {
+                        path = findPath(direction);
+                    }
+                    if (path != null && path.Count != 0)
+                    {
+                        moving = true;
+                    }
                 }
-                else if (Input.GetKeyDown(KeyCode.D))
-                {
-                    direction = wallDir.RIGHT;
-                    path = findPath(direction);
-                }
-                else if (Input.GetKeyDown(KeyCode.W))
-                {
-                    direction = wallDir.UP;
-                    path = findPath(direction);
-                }
-                else if (Input.GetKeyDown(KeyCode.S))
-                {
-                    direction = wallDir.DOWN;
-                    path = findPath(direction);
-                }
-                else if (Input.GetKeyDown(KeyCode.M))
-                {
-                    transform.localPosition = _bm.getEnd().transform.localPosition;
-                }
-                else if (TouchMovement(out direction))
-                {
-                    path = findPath(direction);
-                }
-                if(path != null && path.Count != 0)
-                {
-                    moving = true;
-                }
-            }
 
-            if (moving)
-            {
-                timeMoving += Time.deltaTime;
-                if (timeMoving >= time)
+                if (moving)
                 {
-                    if (path.Count != 0)
+                    timeMoving += Time.deltaTime;
+                    if (timeMoving >= time)
                     {
-                        transform.localPosition = path[0].transform.localPosition;
-                        wallDir d = directionController.getDirection(_bm.getTiles()[inGameX, inGameY].transform.localPosition, path[0].transform.localPosition);
-                        checkTile();
-                        updatePaths(d, false);
-                        path.RemoveAt(0);
+                        if (path.Count != 0)
+                        {
+                            transform.localPosition = path[0].transform.localPosition;
+                            wallDir d = directionController.getDirection(_bm.getTiles()[inGameX, inGameY].transform.localPosition, path[0].transform.localPosition);
+                            checkTile();
+                            updatePaths(d, false);
+                            path.RemoveAt(0);
+                        }
+                        if (path.Count == 0)
+                        {
+                            moving = false;
+                        }
+                        timeMoving = 0;
+                        pathUpdate = false;
                     }
-                    if (path.Count == 0)
+                    else
                     {
-                        moving = false;
-                    }
-                    timeMoving = 0;
-                    pathUpdate = false;
-                }
-                else
-                {
-                    transform.localPosition = Vector3.Lerp(_bm.getTiles()[inGameX, inGameY].transform.localPosition, path[0].transform.localPosition, timeMoving / time);
-                    if (timeMoving >= time / 4 && !pathUpdate)
-                    {
-                        wallDir d = directionController.getDirection(_bm.getTiles()[inGameX, inGameY].transform.localPosition, path[0].transform.localPosition);
-                        updatePaths(d, true);
-                        pathUpdate = true;
+                        transform.localPosition = Vector3.Lerp(_bm.getTiles()[inGameX, inGameY].transform.localPosition, path[0].transform.localPosition, timeMoving / time);
+                        if (timeMoving >= time / 4 && !pathUpdate)
+                        {
+                            wallDir d = directionController.getDirection(_bm.getTiles()[inGameX, inGameY].transform.localPosition, path[0].transform.localPosition);
+                            updatePaths(d, true);
+                            pathUpdate = true;
+                        }
                     }
                 }
             }
@@ -291,5 +295,14 @@ namespace MazesAndMore
             }
         }
 
+        public void setPause(bool t)
+        {
+            onPause = t;
+        }
+
+        public bool getPause()
+        {
+            return onPause;
+        }
     }
 }

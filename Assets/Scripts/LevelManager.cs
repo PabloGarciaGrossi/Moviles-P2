@@ -8,6 +8,7 @@ namespace MazesAndMore {
         // Start is called before the first frame update
         public BoardManager bm;
         public Player player;
+        bool onPause = false;
 
         Map m;
         void Start()
@@ -47,6 +48,11 @@ namespace MazesAndMore {
             bm.ResetPaths();
             player.setStartPos(m.getStart().x, m.getStart().y, m.getWidth(), m.getHeight());
             bm.scale();
+        }
+
+        public void pause()
+        {
+            player.setPause(true);
         }
     }
 }

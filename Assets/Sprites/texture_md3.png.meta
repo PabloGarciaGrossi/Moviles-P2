@@ -17,6 +17,9 @@ TextureImporter:
   - first:
       213: -3982378033659405802
     second: texture_md3_4
+  - first:
+      213: -3012301018103992355
+    second: texture_md3_5
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -216,6 +219,27 @@ TextureImporter:
       bones: []
       spriteID: 61a99662740cbb8c0800000000000000
       internalID: -3982378033659405802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: texture_md3_5
+      rect:
+        serializedVersion: 2
+        x: 1285
+        y: 609
+        width: 65
+        height: 65
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ddf2d531f282236d0800000000000000
+      internalID: -3012301018103992355
       vertices: []
       indices: 
       edges: []
