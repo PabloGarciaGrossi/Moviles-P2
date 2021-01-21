@@ -71,6 +71,7 @@ namespace MazesAndMore
                 if (leveltoPlay < levelPackages[levelType].levels.Length)
                 {
                     lm.resetLevel();
+                    AdManager.ShowStandardAd();
                     lm.LoadLevel(levelPackages[levelType].levels[leveltoPlay].text, levelPackages[levelType].pathColor, levelPackages[levelType].hintColor);
                 }
                 else

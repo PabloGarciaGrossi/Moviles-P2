@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 namespace MazesAndMore
 {
@@ -10,6 +11,8 @@ namespace MazesAndMore
         public GameObject playElements;
         public GameObject mainElements;
         public GameObject levelPanel;
+        public GameObject classicProgress;
+        public GameObject iceProgress;
         public ButtonLevel lvlButton;
         public GameObject horizontalPannel;
         public GameObject verticalZone;
@@ -28,6 +31,9 @@ namespace MazesAndMore
         {
             playElements.SetActive(true);
             mainElements.SetActive(false);
+            classicProgress.GetComponent<Text>().text =decimal.Round((decimal)GameManager.getLastLevelStandard() / (decimal)_lvls[0].levels.Length * 100) + "%";
+
+            iceProgress.GetComponent<Text>().text = decimal.Round((decimal)GameManager.getLastLevelIce() / (decimal)_lvls[1].levels.Length * 100) + "%";
         }
 
         public void ToMainMenu()

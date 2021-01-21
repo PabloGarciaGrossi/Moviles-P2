@@ -487,7 +487,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 150, y: -8}
+  m_AnchoredPosition: {x: 150, y: -89}
   m_SizeDelta: {x: 304.07428, y: 85.77075}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &322318688
@@ -642,7 +642,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 150, y: -8}
+  m_AnchoredPosition: {x: 150, y: -89}
   m_SizeDelta: {x: 304.07428, y: 85.77075}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &620073222
@@ -1409,6 +1409,8 @@ MonoBehaviour:
   playElements: {fileID: 1342473782}
   mainElements: {fileID: 1427294179}
   levelPanel: {fileID: 304728979}
+  classicProgress: {fileID: 620073220}
+  iceProgress: {fileID: 322318686}
   lvlButton: {fileID: 5044060817794536982, guid: 1d10f1d41e9aa3b4b8e18c090fba91bd, type: 3}
   horizontalPannel: {fileID: 8120776473293385270, guid: 1a0e1c9b4c1fb644eb1b87d6f2c34b58, type: 3}
   verticalZone: {fileID: 1823465221}
@@ -1737,7 +1739,7 @@ MonoBehaviour:
     m_Right: 0
     m_Top: 0
     m_Bottom: 0
-  m_ChildAlignment: 0
+  m_ChildAlignment: 4
   m_Spacing: 0
   m_ChildForceExpandWidth: 1
   m_ChildForceExpandHeight: 1
@@ -1799,7 +1801,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 60, y: 0}
+  m_AnchoredPosition: {x: 60, y: 38}
   m_SizeDelta: {x: 708, y: 296}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1977898227
@@ -1825,7 +1827,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 14
-    m_FontStyle: 0
+    m_FontStyle: 1
     m_BestFit: 1
     m_MinSize: 10
     m_MaxSize: 100
@@ -1835,7 +1837,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: CLASSIC
 --- !u!222 &1977898228
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1878,7 +1880,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 60, y: 0}
+  m_AnchoredPosition: {x: 60, y: 22}
   m_SizeDelta: {x: 708, y: 296}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2066660424
@@ -1904,7 +1906,7 @@ MonoBehaviour:
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
     m_FontSize: 14
-    m_FontStyle: 0
+    m_FontStyle: 1
     m_BestFit: 1
     m_MinSize: 10
     m_MaxSize: 100
@@ -1914,7 +1916,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Button
+  m_Text: ICE
 --- !u!222 &2066660425
 CanvasRenderer:
   m_ObjectHideFlags: 0
