@@ -24,7 +24,7 @@ public static class SaveSystem{
 
     public static PlayerProgress LoadProgress()
     {
-        PlayerProgress progress = new PlayerProgress(0);
+        PlayerProgress progress = new PlayerProgress(new int[0], 0);
         string path = Application.persistentDataPath + "/progress.txt";
         if (File.Exists(path))
         {
