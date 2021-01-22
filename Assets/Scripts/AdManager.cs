@@ -17,7 +17,7 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
     private static readonly string rewardedID = "rewardedVideo";
     private static readonly string bannerID = "Banner";
 
-    private Action adSuccess;
+    private Action adSuccess;//Métodos que llamar al ver un anuncio recompensado
     private Action adSkipped;
     private Action adFailed;
 
@@ -27,6 +27,7 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
 #else
     private static bool testMode = false;
 #endif
+
     public static AdManager instance;
 
     //Clase estática que se encarga de la publicidad del juego
@@ -70,7 +71,7 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
     public void OnUnityAdsDidError(string message) { }
     public void OnUnityAdsDidFinish(string placementId, ShowResult showResult)
     {
-        if(placementId == rewardedID)
+        if(placementId == rewardedID)//llamar a los callbacks al terminar un anuncio recompensado
         {
             switch (showResult)
             {

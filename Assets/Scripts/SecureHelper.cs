@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class SecureHelper
 {
+    //devuelve el hash a partir de un string que se usa como key para generarlo
     public static string Hash(string data)
     {
         byte[] textToBytes = Encoding.UTF8.GetBytes(data);
@@ -16,6 +17,7 @@ public class SecureHelper
         return GetHexStringFromHash(hashValue);
     }
 
+    //pasa a string el hash obtenido
     private static string GetHexStringFromHash(byte[] hash)
     {
         string hexString = string.Empty;

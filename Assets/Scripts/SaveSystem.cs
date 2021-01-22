@@ -3,10 +3,12 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 
 public static class SaveSystem{
+    //Guarda el progreso en un fichero json
     public static void SaveProgress(PlayerProgress progress)
     {
         string json = JsonUtility.ToJson(progress);
 
+        //Genera el hash asignado al json que hemos creado y lo guarda
         string hashValue = SecureHelper.Hash(json);
         PlayerPrefs.SetString("HASH", hashValue);
 
@@ -31,8 +33,9 @@ public static class SaveSystem{
                 string defaultValue = "HASH_NOT_GENERATED";
                 string json = reader.ReadToEnd();
                 string hashValue = SecureHelper.Hash(json);
+                //cargamos el hash que teníamos guardado
                 string hashStored = PlayerPrefs.GetString("HASH", defaultValue);
-
+                //comprueba que el hash del fichero de guardado sea el mismo que el último hash que hemos guardado
                 if(hashStored == hashValue || hashStored == defaultValue)
                 {
                     JsonUtility.FromJsonOverwrite(json, progress);
