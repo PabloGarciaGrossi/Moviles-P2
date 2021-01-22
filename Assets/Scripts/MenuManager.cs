@@ -100,7 +100,7 @@ namespace MazesAndMore
                     lvl.setMenuManager(this);
 
                     //Según los datos guardados, indicamos si el botón está completado, desbloqueado pero no completado y bloqueado
-                    int lvlNumber = i * 5 + j;
+                    int lvlNumber = i * rows + j;
                     int lastLvl = GameManager._instance.getLastLevel(pack);
                     if (lvlNumber < lastLvl)
                     {
