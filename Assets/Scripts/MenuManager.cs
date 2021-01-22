@@ -27,14 +27,34 @@ namespace MazesAndMore
         int lvlToLoad;
         int lvlPack = 0;
 
+        bool lvlLoaded = false;
+
         //Inicializamos el nivel a negativo para prevenir de errores a la hora de cargar el nivel
         private void Start()
         {
+            lvlLoaded = false;
             lvlToLoad = -1;
-            for(int i = 0; i < _lvls.Length; i++)
+            if (_lvls != null)
             {
-                GameObject aux = GameObject.Instantiate(_lvls[i].packButton);
-                aux.transform.SetParent(levelTypeSelectionPannel.transform);
+                lvlLoaded = true;
+                for (int i = 0; i < _lvls.Length; i++)
+                {
+                    GameObject aux = GameObject.Instantiate(_lvls[i].packButton);
+                    aux.transform.SetParent(levelTypeSelectionPannel.transform);
+                }
+            }
+        }
+
+        private void Update()
+        {
+            if (_lvls != null && !lvlLoaded)
+            {
+                lvlLoaded = true;
+                for (int i = 0; i < _lvls.Length; i++)
+                {
+                    GameObject aux = GameObject.Instantiate(_lvls[i].packButton);
+                    aux.transform.SetParent(levelTypeSelectionPannel.transform);
+                }
             }
         }
 
