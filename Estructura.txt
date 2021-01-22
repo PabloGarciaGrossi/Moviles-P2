@@ -1,0 +1,26 @@
+CLASES:
+	AdManager: Gestiona e inicializa los anuncios de UnityAds. Es singleton.
+	BoardManager: controla el tablero con sus casillas y paredes y carga los distintos mapas.
+	ButtonLevel: instancia los botones del menú selección de nivel y tiene métodos para cambiar su estado.
+	CanvasManager: controla el menú de pausa y el icono de hints
+	GameManager: controla los cambios de escena y el progreso del jugador con métodos para guardar y cargar partida.
+	LevelManager: controla al player y el boardmanager, indicando cuándo deben inicializarse
+	LevelPackage: contiene los niveles de su package, los colores de los paths correspondientes y el botón del menú que le corresponde
+	Map: carga del json el mapa correspondiente
+	MenuManager: gestiona los distintos elementos del menu principal e indica al gamemanager los niveles y los packages que ha fe cargar al cambiar de escena	
+	PackLevel: clase del botón de selección de tipo de nivel que guarda el progreso total en porcentaje
+	Player: controla la lógica del jugador y accede al BoardManager para gestionar sus movimientos
+	PlayerProgress: clase que guarda las variables que se van a serializar a la hora del guardar el progreso del juego. Accede al 
+		SaveSystem para guardar y cargar los datos de partida.
+	SaveSystem: clase que gestiona el guardado en ficheros. Recibe un objeto y lo guarda como Json y lo vuelve a transformar a la 
+		hora de cargar. Utiliza el SecureHelper para guardar el hash asociado al Json y verificar las partidas guardadas.
+	SecureHelper: contiene métodos para generar un Hash a partir de un string y guardarlo.
+	Tile: clase que gestiona cada Tile individual con sus paredes, meta, inicio, casilla de hielo
+	wallDir: clase con enum de dirección y varios métodos para pasar de un vector a enum
+	
+FICHEROS:
+	Data: guardamos los LevelPackages
+	Levels: Json de cada nivel
+	Sprites: todos los sprites que usamos en el juego
+	las escenas en Scenes y scripts en Scripts
+	 
