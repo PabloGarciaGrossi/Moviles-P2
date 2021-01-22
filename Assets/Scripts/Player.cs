@@ -31,6 +31,7 @@ namespace MazesAndMore
         Vector2 swipeBeg;//posicion de la pantalla donde empieza el swipe
         Vector2 swipeEnd;//posicion de la pantalla donde acaba el swipe
 
+        //Controla la dirección de movimiento que se ha realizado al tocar la pantalla
         private bool TouchMovement(out wallDir dir)
         {
             dir = wallDir.UP;
@@ -39,13 +40,16 @@ namespace MazesAndMore
             {
                 Touch touch = Input.GetTouch(0);
 
+                //Si ha comenzado a tocarlo, controla el tiempo de deslizamiento del dedo
                 if (touch.phase == TouchPhase.Began)
                 {
                     swipe_time_counter = swipeTime;
                     swipeBeg = touch.position;
                 }
+                //Cuando termina de pulsar
                 else if (touch.phase == TouchPhase.Ended)
                 {
+                    //Si ha estado el tiempo del timer nececsario para que se considere un deslizamiento, calcula la dirección.
                     if (swipe_time_counter <= 0)
                     {
                         swipeEnd = touch.position;
@@ -74,26 +78,6 @@ namespace MazesAndMore
 
             return false;
         }
-        private wallDir oppositeDirection(wallDir dir)
-        {
-            wallDir ret = wallDir.UP;
-            switch (dir)
-            {
-                case wallDir.UP:
-                    ret = wallDir.DOWN;
-                    break;
-                case wallDir.DOWN:
-                    ret = wallDir.UP;
-                    break;
-                case wallDir.RIGHT:
-                    ret = wallDir.LEFT;
-                    break;
-                case wallDir.LEFT:
-                    ret = wallDir.RIGHT;
-                    break;
-            }
-            return ret;
-        }
 
         void Start()
         {
@@ -103,36 +87,14 @@ namespace MazesAndMore
 
         void Update()
         {
+            //Comprueba que no esté en pausa
             if (!onPause)
             {
+                //Si no se mueve, comprueba el input del jugador e inicia el movimiento en el path obtenido en esa dirección
                 swipe_time_counter -= Time.deltaTime;
                 if (!moving)
                 {
-                    if (Input.GetKeyDown(KeyCode.A))
-                    {
-                        direction = wallDir.LEFT;
-                        path = findPath(direction);
-                    }
-                    else if (Input.GetKeyDown(KeyCode.D))
-                    {
-                        direction = wallDir.RIGHT;
-                        path = findPath(direction);
-                    }
-                    else if (Input.GetKeyDown(KeyCode.W))
-                    {
-                        direction = wallDir.UP;
-                        path = findPath(direction);
-                    }
-                    else if (Input.GetKeyDown(KeyCode.S))
-                    {
-                        direction = wallDir.DOWN;
-                        path = findPath(direction);
-                    }
-                    else if (Input.GetKeyDown(KeyCode.M))
-                    {
-                        transform.localPosition = _bm.getEnd().transform.localPosition;
-                    }
-                    else if (TouchMovement(out direction))
+                    if (TouchMovement(out direction))
                     {
                         path = findPath(direction);
                     }
@@ -142,9 +104,13 @@ namespace MazesAndMore
                     }
                 }
 
+                //Si se encuentra en movimiento, comienza a recorrer  el camino en time segundos.
                 if (moving)
                 {
                     timeMoving += Time.deltaTime;
+
+                    //Si ha terminado el tiempo de recorrer el sector entre casillas, establece la posición del jugador a la última del path y actualiza su dirección
+                    //Elimina la primera casilla del path y sigue recorriéndolo salvo que no queden elementos por recorrer
                     if (timeMoving >= time)
                     {
                         if (path.Count != 0)
@@ -162,9 +128,12 @@ namespace MazesAndMore
                         timeMoving = 0;
                         pathUpdate = false;
                     }
+                    //Si se encuentra en movimiento hacia la próxima casilla, realiza un lerp hacia la próxima posición del path y actualiza el sprite del tile
+                    //actual en el que se encuentra cuando ha recorrido parte de este tile.
                     else
                     {
                         transform.localPosition = Vector3.Lerp(_bm.getTiles()[inGameX, inGameY].transform.localPosition, path[0].transform.localPosition, timeMoving / time);
+                        //Activación del path en el tile que estamos justo cuando el jugador va a abandonar el tile.
                         if (timeMoving >= time / 4 && !pathUpdate)
                         {
                             wallDir d = directionController.getDirection(_bm.getTiles()[inGameX, inGameY].transform.localPosition, path[0].transform.localPosition);
@@ -175,6 +144,7 @@ namespace MazesAndMore
                 }
             }
         }
+
         private int aprox(float val)
         {
             int aux = (int)val;
@@ -183,6 +153,7 @@ namespace MazesAndMore
             return aux;
         }
 
+        //Comprueba el tile en el que se encuentra y actualiza su posición en la lógica
         private void checkTile()
         {
             float x = transform.localPosition.x + w / 2;
@@ -192,6 +163,7 @@ namespace MazesAndMore
             Debug.Log("Game Tile: " + inGameX + " " + inGameY);
         }
 
+        //Devuelve un camino a recorrer según la dirección indicada
         private List<Tile> findPath(wallDir dir)
         {
             int options = 0;
@@ -200,18 +172,22 @@ namespace MazesAndMore
             int y = inGameY;
             List<Tile> path = new List<Tile>();
 
+            //si hay un muro en esa dirección, no busca camino, pues está bloqueado
             if (_bm.getWalls()[x, y, (int)dir])
             {
                 foundIntersection = true;
             }
+            //sino, añade la casilla a la que se dirige y comienza por esa
             else
             {
                 directionController.getVectorDir(dir, ref x, ref y);
                             path.Add(_bm.getTiles()[x, y]);
             }
-
+            //Recorre buscando en las 4 direcciones hasta que encuentra un tile con 2 o más opciones para elegir camino
             while (!foundIntersection)
             {
+                //si el tile en el que se enncuentra es de hielo, busca en la dirección actual si hay un muro
+                //si no lo hay, continua por ese camino hasta toparse con un muro
                 if (_bm.getTiles()[x, y].isIce())
                 {
                     if(!_bm.getWalls()[x, y, (int)dir])
@@ -225,19 +201,23 @@ namespace MazesAndMore
                     }
                     continue;
                 }
+                //Comprueba las direcciones y va buscando la intersección.
+                //También comprueba que una de las posibles salidas no sea por donde ha venido el jugador
                 wallDir aux = dir;
                 foreach (wallDir d in (wallDir[])Enum.GetValues(typeof(wallDir)))
                 {
-                    if (!_bm.getWalls()[x, y, (int)d] && d != oppositeDirection(dir))
+                    if (!_bm.getWalls()[x, y, (int)d] && d != directionController.oppositeDirection(dir))
                     {
                         options++;
                         aux = d;
                     }
                 }
+                //Si hay más de una intersección y la dirección  es la misma y no ha encontrado opciones (caminos sin salida), termina la búsqueda.
                 if (options > 1 || (aux == dir && options == 0))
                 {
                         foundIntersection = true;
                 }
+                //Añade el tile al path
                 else
                 {
                     dir = aux;
@@ -255,6 +235,7 @@ namespace MazesAndMore
             _bm = bm;
         }
 
+        //Coloca al jugador en la posición inicial
         public void setStartPos(int x, int y, int width, int height)
         {
             inGameX = x;
@@ -270,10 +251,13 @@ namespace MazesAndMore
             GetComponent<SpriteRenderer>().color = col;
         }
 
+        //Activa los sprites de lso paths de los tiles por los que se va pasando
+        //El bool inverted indica si estamos llegando a un tile en concreto o lo estamos abandonando.
+        //Así podemos activar el path en sentido contrario a nuestra dirección cuando lleguemos al tile.
         public void updatePaths(wallDir dir, bool inverted = false)
         {
             if (inverted)
-                dir = oppositeDirection(dir);
+                dir = directionController.oppositeDirection(dir);
             switch (dir)
             {
                 case wallDir.UP:
@@ -295,11 +279,13 @@ namespace MazesAndMore
             }
         }
 
+        //pausa el juego
         public void setPause(bool t)
         {
             onPause = t;
         }
 
+        //comprueba si está pausado
         public bool getPause()
         {
             return onPause;

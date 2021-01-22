@@ -29,6 +29,9 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
 #endif
     public static AdManager instance;
 
+    //Clase estática que se encarga de la publicidad del juego
+
+    //Genera la instancia si no existe, si existe, la destruye
     private void Awake()
     {
         if(instance == null)
@@ -44,6 +47,7 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
         }
     }
 
+    //Muestra un vídeo de publicidad
     public static void ShowStandardAd()
     {
         if (Advertisement.IsReady(videoID))

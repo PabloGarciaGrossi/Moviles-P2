@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace MazesAndMore
 {
+    //Controla el menú de pausa y las pistas en el juego
     public class CanvasManager : MonoBehaviour
     {
         public GameObject pause;

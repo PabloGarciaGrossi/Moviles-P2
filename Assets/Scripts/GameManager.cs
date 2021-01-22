@@ -24,6 +24,7 @@ namespace MazesAndMore
         // Start is called before the first frame update
         void Start()
         {
+            //Si al cargar la escena ya existe un gamemanager, sse destruye y actualiza el levelmanager y el menumanager
             if(_instance != null)
             {
                 _instance.lm = lm;
@@ -40,12 +41,14 @@ namespace MazesAndMore
 
         private void StartNewScene()
         {
+            //si existe el menúmanager, carga el menú
             if (mm)
             {
                 mm.loadMenu(levelPackages);
                 GameManager.Load();
             }
 
+            //si existe el levelmanager, carga el nivel indicado por el menú
             if(lm)
             {
                 //lanzar nivel
@@ -55,8 +58,10 @@ namespace MazesAndMore
 
         private void Update()
         {
+            //Comprobación de que el jugador ha llegado a la posición de meta del laberinto
             if(lm != null && lm.player.transform.position == lm.bm.getEnd().transform.position)
             {
+                //Comprobamos que el nivel pasado sea superior al último guardado, si es así, se actualiza el último nivel pasado a este
                 leveltoPlay++;
                 if (levelType == 0)
                 {
@@ -66,8 +71,10 @@ namespace MazesAndMore
                 else if (lastLevelUnlocked_ice < leveltoPlay)
                     lastLevelUnlocked_ice = leveltoPlay;
 
+                //Guardado
                 GameManager.Save();
 
+                //Si aún no estamos en el último nivel, pasamos al siguiente y mostramos un anuncio, sino, se devuelve al menú principal
                 if (leveltoPlay < levelPackages[levelType].levels.Length)
                 {
                     lm.resetLevel();
@@ -80,6 +87,7 @@ namespace MazesAndMore
                 }
             }
         }
+        //Guardado del progreso según el último nivel básico y el último nivel de hielo completados y las pistas que se tienen actualmente
         public static void Save()
         {
             PlayerProgress progress = new PlayerProgress(lastLevelUnlocked_standard, lastLevelUnlocked_ice, hints);
@@ -87,6 +95,7 @@ namespace MazesAndMore
             progress.Save();
         }
 
+        //Carga la partida
         public static void Load()
         {
             PlayerProgress progress = new PlayerProgress(0, 0, 0);
@@ -115,6 +124,7 @@ namespace MazesAndMore
             hints += h;
         }
 
+        //Método llamado desde el menú para recibir el nivel seleccionado en el menú
         public static void loadLevel(int pack, int lvl)
         {
             levelType = pack;

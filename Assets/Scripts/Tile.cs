@@ -45,12 +45,6 @@ namespace MazesAndMore
         [Tooltip("Sprite para el tile de tpista izquierda")]
         public SpriteRenderer leftHint;
 
-        // Start is called before the first frame update
-        void Start()
-        {
-            
-        }
-
         public void enableIce()
         {
             iceTile.enabled = true;

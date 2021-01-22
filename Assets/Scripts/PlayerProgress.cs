@@ -4,6 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerProgress
 {
+    //Mantiene control de los datos del jugador a lo largo de la partida para cargarlos y guardarlos cuando sea necesario
     public int lastLevelUnlocked_standard;
     public int lastLevelUnlocked_ice;
     public int hints;

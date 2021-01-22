@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 public class Map
 {
+    //Datos del mapa a cargar del json
     [System.Serializable]
     class Info
     {
@@ -15,6 +16,8 @@ public class Map
         public JsonTile[] i;
     }
 
+    //Vector 2 que se inicializa a 0 para cundo hay datos que no están indicados en el json pero deberían valer 0
+    //Es decir, en ocasiones cuando hay una x que debería valer 0, no viene indicada, por lo que esto la inicializa a 0 y evita problemas en la lectura
     [System.Serializable]
     public class JsonTile
     {
@@ -22,6 +25,7 @@ public class Map
         public int y = 0;
     }
 
+    //Carga del json el mapa recibido
     public Map FromJson(string json)
     {
         Info mapaAux = JsonUtility.FromJson<Info>(json);
