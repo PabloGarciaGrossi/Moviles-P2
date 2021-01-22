@@ -68,8 +68,8 @@ namespace MazesAndMore
 
             for (int i = 0; i < _lvls.Length; i++) 
             { 
-                int p = GameManager._instance.getLastLevel(i)/_lvls[i].levels.Length;
-                _lvls[i].packButton.GetComponent<PackLevel>().setPercentage(p);
+                float p = Mathf.Round((float)GameManager._instance.getLastLevel(i)/(float)_lvls[i].levels.Length * 100f);
+                _lvls[i].packButton.GetComponent<PackLevel>().setPercentage((int)p);
             }
         }
 
