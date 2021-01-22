@@ -116,3 +116,4 @@ MonoBehaviour:
   pathColor: {r: 0.27450982, g: 0.9529412, b: 0.4, a: 1}
   hintColor: {r: 0.90588236, g: 0.7254902, b: 0.13333334, a: 1}
   iceColor: {r: 0.60784316, g: 0.9137255, b: 0.8235294, a: 1}
+  packButton: {fileID: 6147070517703269705, guid: 449289c582edb9c4c94f1dd2fcb747f9, type: 3}

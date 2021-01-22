@@ -24,8 +24,7 @@ public static class SaveSystem{
 
     public static PlayerProgress LoadProgress()
     {
-        //crea un progreso de 0 en caso de que los datos de guardado hayan sido cambiados desde fuera del juego
-        PlayerProgress progress = new PlayerProgress(0, 0, 0);
+        PlayerProgress progress = new PlayerProgress(0);
         string path = Application.persistentDataPath + "/progress.txt";
         if (File.Exists(path))
         {

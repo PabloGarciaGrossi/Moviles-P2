@@ -77,7 +77,7 @@ namespace MazesAndMore {
         //Guarda la partida y regresa al menú principal
         public void goHome()
         {
-            GameManager.Save();
+            GameManager._instance.Save();
             SceneManager.LoadScene("MenuScene");
         }
     }

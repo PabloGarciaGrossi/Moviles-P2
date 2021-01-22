@@ -12,11 +12,11 @@ namespace MazesAndMore {
 
         private void RewardAd()
         {
-            GameManager.addHints(3);
+            GameManager._instance.addHints(3);
         }
         private void SkipAd()
         {
-            GameManager.addHints(1);
+            GameManager._instance.addHints(1);
         }
         private void FailAd()
         {
