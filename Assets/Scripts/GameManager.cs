@@ -11,13 +11,13 @@ namespace MazesAndMore
         public MenuManager mm;
 #if UNITY_EDITOR
         [Tooltip("Si es nivel clásico o con hielo")]
-        public int levelType = 0;
+        public static int levelType = 0;
         [Tooltip("Nivel que se va a jugar para testeo")]
-        public int leveltoPlay = 0;
+        public static int leveltoPlay = 0;
 #endif
         public LevelPackage[] levelPackages;
-        int[] lastLvls;
-        int hints = 3;
+        static int[] lastLvls;
+        static int hints = 3;
         int numberOfPacks;
 
         public static GameManager _instance;
@@ -90,15 +90,14 @@ namespace MazesAndMore
         //Guardado del progreso según el último nivel básico y el último nivel de hielo completados y las pistas que se tienen actualmente
         public void Save()
         {
-            PlayerProgress progress = new PlayerProgress(hints);
-
+            PlayerProgress progress = new PlayerProgress(lastLvls, hints);
             progress.Save();
         }
 
         //Carga la partida
         public void Load()
         {
-            PlayerProgress progress = new PlayerProgress(0);
+            PlayerProgress progress = new PlayerProgress(new int[numberOfPacks],0);
 
             progress.Load();
             lastLvls = progress.lastLvls;

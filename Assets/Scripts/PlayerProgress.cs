@@ -8,9 +8,9 @@ public class PlayerProgress
     public int[] lastLvls;
     public int hints;
 
-    public PlayerProgress(int h)
+    public PlayerProgress(int[] last, int h)
     {
-        lastLvls = new int[0];
+        lastLvls = last;
         hints = h;
     }
 
