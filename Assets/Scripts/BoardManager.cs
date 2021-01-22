@@ -204,7 +204,7 @@ namespace MazesAndMore
             int start = 0;
             int end = 0;
             //Comprobamos que el jugador tenga pistas y que no lleve 3 usos de pistas en el nivel
-            if (hintCount < 3 && GameManager.getHints() > 0)
+            if (hintCount < 3 && GameManager._instance.getHints() > 0)
             {
                 //Dependiendo del número de usos, activaremos una parte de los hints u otras
                 switch (hintCount)
@@ -268,7 +268,7 @@ namespace MazesAndMore
                 }
                 //sumamos el número de usos de pistas y lo restamos al gamemanager
                 hintCount++;
-                GameManager.addHints(-1);
+                GameManager._instance.addHints(-1);
             }
         }
 
@@ -304,9 +304,9 @@ namespace MazesAndMore
 
         public void setColorHint(Color col) { colHint = col; }
 
-        public void RewardAdHints(){ GameManager.addHints(3); Debug.Log("Ad watched"); }
+        public void RewardAdHints(){ GameManager._instance.addHints(3); Debug.Log("Ad watched"); }
 
-        public void SkippedAdHints() { GameManager.addHints(1); Debug.Log("Ad Skipped"); }
+        public void SkippedAdHints() { GameManager._instance.addHints(1); Debug.Log("Ad Skipped"); }
 
         public void FailedAd() { Debug.Log("Ad Failed"); }
 

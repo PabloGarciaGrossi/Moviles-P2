@@ -11,11 +11,15 @@ namespace MazesAndMore
         public GameObject playElements;
         public GameObject mainElements;
         public GameObject levelPanel;
-        public GameObject classicProgress;
-        public GameObject iceProgress;
         public ButtonLevel lvlButton;
+
         public GameObject horizontalPannel;
         public GameObject verticalZone;
+
+        public GameObject levelTypeSelectionPannel;
+
+        public string[] lvlNames;
+        public Color[] packColors;
 
         GameObject[] pannels;
 
@@ -27,7 +31,13 @@ namespace MazesAndMore
         private void Start()
         {
             lvlToLoad = -1;
+            for(int i = 0; i < _lvls.Length; i++)
+            {
+                GameObject aux = GameObject.Instantiate(_lvls[i].packButton);
+                aux.transform.SetParent(levelTypeSelectionPannel.transform);
+            }
         }
+
         //Carga el menú de seleccionar el tipo de nivel
         //Al cargarlo, le asigna a cada uno de los botones de los niveles el porcentaje que indica lo completos que están.
         //Para ello, utiliza el último nivel guardado para mostarr el porcentaje
@@ -35,9 +45,12 @@ namespace MazesAndMore
         {
             playElements.SetActive(true);
             mainElements.SetActive(false);
-            classicProgress.GetComponent<Text>().text =decimal.Round((decimal)GameManager.getLastLevelStandard() / (decimal)_lvls[0].levels.Length * 100) + "%";
 
-            iceProgress.GetComponent<Text>().text = decimal.Round((decimal)GameManager.getLastLevelIce() / (decimal)_lvls[1].levels.Length * 100) + "%";
+            for (int i = 0; i < _lvls.Length; i++) 
+            { 
+                int p = GameManager._instance.getLastLevel(i)/_lvls[i].levels.Length;
+                _lvls[i].packButton.GetComponent<PackLevel>().setPercentage(p);
+            }
         }
 
         //Activa el menú principal y desactiva el resto
@@ -58,7 +71,7 @@ namespace MazesAndMore
         //Carga de los niveles
         public void loadLevels(int pack)
         {
-            //Guarad el pack de niveles y cargamos las filas necesarias para mostrar todos los niveles
+            //Guarda el pack de niveles y cargamos las filas necesarias para mostrar todos los niveles
             lvlPack = pack;
             int length = _lvls[lvlPack].levels.Length;
             int rows = 0;
@@ -88,13 +101,12 @@ namespace MazesAndMore
 
                     //Según los datos guardados, indicamos si el botón está completado, desbloqueado pero no completado y bloqueado
                     int lvlNumber = i * rows + j;
-                    if(lvlNumber< GameManager.getLastLevelStandard() && lvlPack == 0 
-                        || lvlNumber < GameManager.getLastLevelIce() && lvlPack ==1)
+                    int lastLvl = GameManager._instance.getLastLevel(pack);
+                    if (lvlNumber < lastLvl)
                     {
                         lvl.setComplete();
                     }
-                    else if (lvlNumber == GameManager.getLastLevelStandard() && lvlPack == 0 
-                        || lvlNumber == GameManager.getLastLevelIce() && lvlPack == 1)
+                    else if (lvlNumber == lastLvl)
                     {
                         lvl.setUnlocked();
                     }
@@ -128,7 +140,7 @@ namespace MazesAndMore
         {
             if(lvlToLoad != -1)
             {
-                GameManager.loadLevel(lvlPack, lvlToLoad);
+                GameManager._instance.loadLevel(lvlPack, lvlToLoad);
                 SceneManager.LoadScene("SampleScene");
             }
         }

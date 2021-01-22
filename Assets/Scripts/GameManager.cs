@@ -11,33 +11,38 @@ namespace MazesAndMore
         public MenuManager mm;
 #if UNITY_EDITOR
         [Tooltip("Si es nivel clásico o con hielo")]
-        public static int levelType = 0;
+        public int levelType = 0;
         [Tooltip("Nivel que se va a jugar para testeo")]
-        public static int leveltoPlay = 0;
+        public int leveltoPlay = 0;
 #endif
         public LevelPackage[] levelPackages;
+        int[] lastLvls;
+        int hints = 3;
+        int numberOfPacks;
 
-        static int lastLevelUnlocked_standard;
-        static int lastLevelUnlocked_ice;
-        static int hints = 3;
+        public static GameManager _instance;
 
         // Start is called before the first frame update
         void Start()
         {
+            numberOfPacks = levelPackages.Length;
             //Si al cargar la escena ya existe un gamemanager, sse destruye y actualiza el levelmanager y el menumanager
             if(_instance != null)
             {
                 _instance.lm = lm;
                 _instance.mm = mm;
+                StartNewScene();
                 DestroyImmediate(gameObject);
                 return;
+            }
+            else
+            {
+                _instance = this;
             }
             StartNewScene();
             //Resto de la inicialización
             DontDestroyOnLoad(this);
         }
-
-        static GameManager _instance;
 
         private void StartNewScene()
         {
@@ -45,7 +50,7 @@ namespace MazesAndMore
             if (mm)
             {
                 mm.loadMenu(levelPackages);
-                GameManager.Load();
+                Load();
             }
 
             //si existe el levelmanager, carga el nivel indicado por el menú
@@ -63,16 +68,11 @@ namespace MazesAndMore
             {
                 //Comprobamos que el nivel pasado sea superior al último guardado, si es así, se actualiza el último nivel pasado a este
                 leveltoPlay++;
-                if (levelType == 0)
-                {
-                    if(lastLevelUnlocked_standard < leveltoPlay)
-                        lastLevelUnlocked_standard = leveltoPlay;
-                }
-                else if (lastLevelUnlocked_ice < leveltoPlay)
-                    lastLevelUnlocked_ice = leveltoPlay;
+                if(lastLvls[levelType] < leveltoPlay)
+                    lastLvls[levelType] = leveltoPlay;
 
                 //Guardado
-                GameManager.Save();
+                Save();
 
                 //Si aún no estamos en el último nivel, pasamos al siguiente y mostramos un anuncio, sino, se devuelve al menú principal
                 if (leveltoPlay < levelPackages[levelType].levels.Length)
@@ -88,44 +88,43 @@ namespace MazesAndMore
             }
         }
         //Guardado del progreso según el último nivel básico y el último nivel de hielo completados y las pistas que se tienen actualmente
-        public static void Save()
+        public void Save()
         {
-            PlayerProgress progress = new PlayerProgress(lastLevelUnlocked_standard, lastLevelUnlocked_ice, hints);
+            PlayerProgress progress = new PlayerProgress(hints);
 
             progress.Save();
         }
 
         //Carga la partida
-        public static void Load()
+        public void Load()
         {
-            PlayerProgress progress = new PlayerProgress(0, 0, 0);
+            PlayerProgress progress = new PlayerProgress(0);
 
             progress.Load();
-            lastLevelUnlocked_standard = progress.lastLevelUnlocked_standard;
-            lastLevelUnlocked_ice = progress.lastLevelUnlocked_ice;
+            lastLvls = progress.lastLvls;
+            if(lastLvls.Length == 0)
+            {
+                lastLvls = new int[numberOfPacks];
+            }
             hints = progress.hints;
         }
 
-        public static int getLastLevelIce()
-        {
-            return lastLevelUnlocked_ice;
-        }
-        public static int getLastLevelStandard()
-        {
-            return lastLevelUnlocked_standard;
-        }
-        public static int getHints()
+        public int getHints()
         {
             return hints;
         }
 
-        public static void addHints(int h)
+        public void addHints(int h)
         {
             hints += h;
         }
+        public int getLastLevel(int n) { return lastLvls[n]; }
+
+        public void setMenuPack(int pack) { levelType = pack; mm.loadLevels(pack); }
+
 
         //Método llamado desde el menú para recibir el nivel seleccionado en el menú
-        public static void loadLevel(int pack, int lvl)
+        public void loadLevel(int pack, int lvl)
         {
             levelType = pack;
             leveltoPlay = lvl;

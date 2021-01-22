@@ -5,14 +5,12 @@ using UnityEngine;
 public class PlayerProgress
 {
     //Mantiene control de los datos del jugador a lo largo de la partida para cargarlos y guardarlos cuando sea necesario
-    public int lastLevelUnlocked_standard;
-    public int lastLevelUnlocked_ice;
+    public int[] lastLvls;
     public int hints;
 
-    public PlayerProgress(int lastLevelSt, int lastLevelIc, int h)
+    public PlayerProgress(int h)
     {
-        lastLevelUnlocked_standard = lastLevelSt;
-        lastLevelUnlocked_ice = lastLevelIc;
+        lastLvls = new int[0];
         hints = h;
     }
 
@@ -25,8 +23,7 @@ public class PlayerProgress
     {
         PlayerProgress data = SaveSystem.LoadProgress();
 
-        lastLevelUnlocked_standard = data.lastLevelUnlocked_standard;
-        lastLevelUnlocked_ice = data.lastLevelUnlocked_ice;
+        lastLvls = data.lastLvls;
         hints = data.hints;
     }
 }

@@ -13,7 +13,7 @@ namespace MazesAndMore
 
         private void Update()
         {
-            hintsText.text = GameManager.getHints().ToString();
+            hintsText.text = GameManager._instance.getHints().ToString();
         }
 
         public void pauseScene()
