@@ -25,6 +25,7 @@ public static class SaveSystem{
     public static PlayerProgress LoadProgress()
     {
         PlayerProgress progress = new PlayerProgress(new int[0], 0);
+        Debug.Log(Application.persistentDataPath);
         string path = Application.persistentDataPath + "/progress.txt";
         if (File.Exists(path))
         {
@@ -46,8 +47,10 @@ public static class SaveSystem{
         }
         else
         {
-            Debug.LogError("Save file not fount");
-            return null;
+            int[] l = new int[2] {0,0};
+            PlayerProgress p = new PlayerProgress(l, 0);
+            SaveProgress(p);
+            return p;
         }
     }
 }

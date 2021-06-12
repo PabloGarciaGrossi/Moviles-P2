@@ -9,6 +9,7 @@ namespace MazesAndMore
     {
         public int package;
         public Text percentage;
+        public Text packname;
         void Start()
         {
             Button bt = GetComponent<Button>();
@@ -21,5 +22,8 @@ namespace MazesAndMore
         }
 
         public void setPercentage(int p) { percentage.text = p + "%"; }
+        public void setImage(Sprite i) { GetComponent<Image>().sprite = i; }
+        public void setName(string s) { packname.text = s; }
+        public void setPackage(int p) { package = p; }
     }
 }

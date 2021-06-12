@@ -5,15 +5,15 @@ public class Map
     [System.Serializable]
     class Info
     {
-        public int r;
-        public int c;
+        public int r = 0;
+        public int c = 0;
 
-        public JsonTile s;
-        public JsonTile f;
+        public JsonTile s = null;
+        public JsonTile f = null;
 
-        public JsonTile[] h;
-        public Walls[] w;
-        public JsonTile[] i;
+        public JsonTile[] h = null;
+        public Walls[] w = null;
+        public JsonTile[] i = null;
     }
 
     //Vector 2 que se inicializa a 0 para cundo hay datos que no están indicados en el json pero deberían valer 0

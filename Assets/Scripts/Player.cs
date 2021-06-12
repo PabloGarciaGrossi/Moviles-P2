@@ -31,28 +31,29 @@ namespace MazesAndMore
         Vector2 swipeBeg;//posicion de la pantalla donde empieza el swipe
         Vector2 swipeEnd;//posicion de la pantalla donde acaba el swipe
 
+        bool swiping = false;
+
         //Controla la dirección de movimiento que se ha realizado al tocar la pantalla
         private bool TouchMovement(out wallDir dir)
         {
             dir = wallDir.UP;
 
-            if (Input.touchCount > 0)
+            if (Input.GetMouseButtonDown(0) && !swiping)
             {
-                Touch touch = Input.GetTouch(0);
-
-                //Si ha comenzado a tocarlo, controla el tiempo de deslizamiento del dedo
-                if (touch.phase == TouchPhase.Began)
-                {
-                    swipe_time_counter = swipeTime;
-                    swipeBeg = touch.position;
-                }
+                swipe_time_counter = 0;
+                swipeBeg = Input.mousePosition;
+                swiping = true;
+            }
+            else
+            {
                 //Cuando termina de pulsar
-                else if (touch.phase == TouchPhase.Ended)
+                if (Input.GetMouseButtonUp(0))
                 {
+                    swiping = false;
                     //Si ha estado el tiempo del timer nececsario para que se considere un deslizamiento, calcula la dirección.
-                    if (swipe_time_counter <= 0)
+                    if (swipe_time_counter < swipeTime)
                     {
-                        swipeEnd = touch.position;
+                        swipeEnd = Input.mousePosition;
                         Vector2 swipeDir = swipeEnd - swipeBeg;
                         if (swipeDir.magnitude >= swipeDist)
                         {

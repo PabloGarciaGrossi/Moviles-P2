@@ -13,6 +13,7 @@ public class LevelPackage : ScriptableObject
 
     public Color iceColor;
 
-    public GameObject packButton;
+    public Sprite imgLevel;
 
+    public string packName;
 }

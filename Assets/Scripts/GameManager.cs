@@ -9,12 +9,12 @@ namespace MazesAndMore
     {
         public LevelManager lm;
         public MenuManager mm;
-#if UNITY_EDITOR
+
         [Tooltip("Si es nivel clásico o con hielo")]
         public static int levelType = 0;
         [Tooltip("Nivel que se va a jugar para testeo")]
         public static int leveltoPlay = 0;
-#endif
+
         public LevelPackage[] levelPackages;
         static int[] lastLvls;
         static int hints = 3;
@@ -49,7 +49,6 @@ namespace MazesAndMore
             //si existe el menúmanager, carga el menú
             if (mm)
             {
-                mm.loadMenu(levelPackages);
                 Load();
             }
 

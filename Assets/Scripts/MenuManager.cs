@@ -12,64 +12,49 @@ namespace MazesAndMore
         public GameObject mainElements;
         public GameObject levelPanel;
         public ButtonLevel lvlButton;
+        public PackLevel buttonSelectPack;
 
         public GameObject horizontalPannel;
-        public GameObject verticalZone;
+        public VerticalLayoutGroup verticalZone;
+        public RectTransform zonaButtonsLevels;
 
-        public GameObject levelTypeSelectionPannel;
+        public RectTransform zonaButtons;
+        public VerticalLayoutGroup levelTypeSelectionPannel;
 
         public string[] lvlNames;
         public Color[] packColors;
 
         GameObject[] pannels;
 
-        LevelPackage[] _lvls;
         int lvlToLoad;
         int lvlPack = 0;
 
         bool lvlLoaded = false;
 
-        //Inicializamos el nivel a negativo para prevenir de errores a la hora de cargar el nivel
-        private void Start()
-        {
-            lvlLoaded = false;
-            lvlToLoad = -1;
-            if (_lvls != null)
-            {
-                lvlLoaded = true;
-                for (int i = 0; i < _lvls.Length; i++)
-                {
-                    GameObject aux = GameObject.Instantiate(_lvls[i].packButton);
-                    aux.transform.SetParent(levelTypeSelectionPannel.transform);
-                }
-            }
-        }
-
-        private void Update()
-        {
-            if (_lvls != null && !lvlLoaded)
-            {
-                lvlLoaded = true;
-                for (int i = 0; i < _lvls.Length; i++)
-                {
-                    GameObject aux = GameObject.Instantiate(_lvls[i].packButton);
-                    aux.transform.SetParent(levelTypeSelectionPannel.transform);
-                }
-            }
-        }
-
         //Carga el menú de seleccionar el tipo de nivel
-        //Al cargarlo, le asigna a cada uno de los botones de los niveles el porcentaje que indica lo completos que están.
-        //Para ello, utiliza el último nivel guardado para mostarr el porcentaje
+        //Al cargarlo, crea cada uno de los botones de tipo de nivel y le asigna a cada uno de los botones de los niveles el porcentaje que indica lo completos que están.
+        //Para ello, utiliza el último nivel guardado para mostrar el porcentaje
         public void ToPlayMenu()
         {
             playElements.SetActive(true);
             mainElements.SetActive(false);
 
-            for (int i = 0; i < _lvls.Length; i++) 
-            { 
-                float p = Mathf.Round((float)GameManager._instance.getLastLevel(i)/(float)_lvls[i].levels.Length * 100f);
-                _lvls[i].packButton.GetComponent<PackLevel>().setPercentage((int)p);
+            lvlLoaded = false;
+            lvlToLoad = -1;
+
+            if (!lvlLoaded)
+            {
+                lvlLoaded = true;
+                for (int i = 0; i < GameManager._instance.levelPackages.Length; i++)
+                {
+                    PackLevel aux = GameObject.Instantiate(buttonSelectPack, levelTypeSelectionPannel.transform);
+
+                    float p = Mathf.Round((float)GameManager._instance.getLastLevel(i) / (float)GameManager._instance.levelPackages[i].levels.Length * 100f);
+                    aux.setPercentage((int)p);
+                    aux.setImage(GameManager._instance.levelPackages[i].imgLevel);
+                    aux.setName(GameManager._instance.levelPackages[i].packName);
+                    aux.setPackage(i);
+                }
             }
         }
 
@@ -93,7 +78,7 @@ namespace MazesAndMore
         {
             //Guarda el pack de niveles y cargamos las filas necesarias para mostrar todos los niveles
             lvlPack = pack;
-            int length = _lvls[lvlPack].levels.Length;
+            int length = GameManager._instance.levelPackages[lvlPack].levels.Length;
             int rows = 0;
             if (length % 5 == 0)
                 rows = length / 5;
@@ -103,19 +88,26 @@ namespace MazesAndMore
             int count = 0;
             pannels = new GameObject[rows];
 
+
             //Creación de las filas y cada uno de los botones
             for (int i = 0; i < rows; i++)
             {
+                //Transformación de la altura del panel de niveles vertical según el número de niveles
+                int r = (int)Mathf.Ceil((GameManager._instance.levelPackages[lvlPack].levels.Length / 5.0f));
+                int tam = (r - 7);
+                if (tam < 0)
+                    tam = 0;
+               zonaButtonsLevels.offsetMax = new Vector2(zonaButtonsLevels.offsetMax.x, 0);
+               zonaButtonsLevels.offsetMin = new Vector2(zonaButtonsLevels.offsetMin.x, -tam * (horizontalPannel.GetComponent<RectTransform>().rect.height + verticalZone.spacing));
+
                 //Instanciamos un panel horizontal y lo hacemos hijo del panel vertical
-                GameObject aux = GameObject.Instantiate(horizontalPannel);
-                aux.transform.SetParent(verticalZone.transform);
+                GameObject aux = GameObject.Instantiate(horizontalPannel, verticalZone.transform);
                 pannels[i] = aux;
 
                 //Creación de los botones
                 for (int j = 0; j < 5; j++)
                 {
-                    ButtonLevel lvl = GameObject.Instantiate(lvlButton);
-                    lvl.transform.SetParent(aux.transform);
+                    ButtonLevel lvl = GameObject.Instantiate(lvlButton, aux.transform);
                     lvl.setLvl(count);
                     lvl.setMenuManager(this);
 
@@ -142,12 +134,6 @@ namespace MazesAndMore
             ToLvlMenu();
         }
 
-        //Recibe los niveles del gamemanager
-        public void loadMenu(LevelPackage[] lvls)
-        {
-            _lvls = lvls;
-        }
-
         //guarda el nivel a cargar y cambia de escena
         public void goLevel(int lvl)
         {
@@ -161,7 +147,7 @@ namespace MazesAndMore
             if(lvlToLoad != -1)
             {
                 GameManager._instance.loadLevel(lvlPack, lvlToLoad);
-                SceneManager.LoadScene("SampleScene");
+                SceneManager.LoadScene("GameScene");
             }
         }
     }

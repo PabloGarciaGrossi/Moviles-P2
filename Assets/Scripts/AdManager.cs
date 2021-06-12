@@ -8,10 +8,10 @@ using UnityEngine.Advertisements;
 
 public class AdManager : MonoBehaviour, IUnityAdsListener
 {
-#if UNITY_ANDROID
-    private static readonly string storeID = "3980365";
-#elif UNITY_IOS
-    private static readonly string storeID = "3980364";
+#if !UNITY_IOS
+    private static readonly string storeID = "4163141";
+#else
+    private static readonly string storeID = "4163140";
 #endif
     private static readonly string videoID = "video";
     private static readonly string rewardedID = "rewardedVideo";
@@ -31,7 +31,6 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
     public static AdManager instance;
 
     //Clase estática que se encarga de la publicidad del juego
-
     //Genera la instancia si no existe, si existe, la destruye
     private void Awake()
     {
